@@ -1,1 +1,7 @@
-# personal-finances
+# Personal Finances
+
+## Stack
+
+- Express
+- sequelize
+- bcrypt
