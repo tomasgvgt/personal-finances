@@ -2,10 +2,10 @@ version: '3.3'
 
 services:
     db:
-        image: postgres:latest
-        restart: always
-        environment:
-            - POSTGRES_USER=usercito
-            - POSTGRES_PASSWORD=passwordcita
-        ports:
-        - '5432:5432'
+      image: postgres:latest
+      restart: always
+      environment:
+          - POSTGRES_USER=usercito
+          - POSTGRES_PASSWORD=passwordcita
+      ports:
+      - '5432:5432'
