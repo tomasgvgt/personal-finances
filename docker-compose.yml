@@ -5,7 +5,8 @@ services:
         image: postgres:latest
         restart: always
         environment:
-            - POSTGRES_USER=usercito
-            - POSTGRES_PASSWORD=passwordcita
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_DATABASE}
         ports:
         - '5432:5432'
