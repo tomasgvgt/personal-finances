@@ -1,29 +1,20 @@
-const express = require('express')
-require('dotenv').config()
-const  db   = require('../models')
+const express = require('express');
+require('dotenv').config();
 
-const PORT = process.env.PORT
-const app = express()
+const PORT = process.env.PORT;
+const app = express();
 
 app.get('/', (req, res) => {
-    res.status(200).send(`
+  res.status(200).send(`
     <html>
     <body>
     <h1>Personal Finances</h1>
+    <p>Another text</p>
     </body>
     </html>
-    `)
-})
+    `);
+});
 
-app.listen(PORT, async () => {
-        console.log(`Server listening on: http://localhost:${PORT}`)
-    // try {
-    //     // console.log(Object.keys(db.sequelize.connectionManager.prototype))
-    //     // await db.sequelize.authenticate()
-
-    //     console.log(`Connected to ${process.env.DB_DATABASE}`)
-        
-    // } catch (error) {
-    //    console.error('Unable to connect to db \n Reason: ', error) 
-    // }
-})
+app.listen(PORT, () => {
+  console.log(`Server listening on: http://localhost:${PORT}`);
+});
