@@ -2,12 +2,11 @@ version: '3.3'
 
 services:
     db:
-        image: mysql:latest
-        ports:
-            - '3306:3306'
-        environment:
-            MYSQL_USER: "${DB_USERNAME}"
-            MYSQL_PASSWORD: "${DB_PASSWORD}"
-            MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
-            MYSQL_DB: "${DB_DATABASE}"
+        image: postgres:latest
         restart: always
+        environment:
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_DATABASE}
+        ports:
+        - '5432:5432'
