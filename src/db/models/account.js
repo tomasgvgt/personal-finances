@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       models.Account.hasMany(models.Transaction);
       models.Account.belongsTo(models.User, {
         foregnKey: {
-          name: 'userId'
+          name: 'user_id'
         }
       });
     }
@@ -34,8 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    userId: {
+    user_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: 'User',
         key: 'id'
@@ -44,6 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Account',
+    tableName: 'account'
   });
   return Account;
 };

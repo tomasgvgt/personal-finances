@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Transacions extends Model {
+  class Transactions extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,52 +12,52 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.Transaction.BelongsTo(models.Category, {
         foregnKey: {
-          name: 'categoryId'
+          name: 'category_id'
         }
       });
       models.Transaction.BelongsTo(models.Account, {
         foregnKey: {
-          name: 'accountId'
+          name: 'account_id'
         }
       });
       models.Transaction.BelongsTo(models.User, {
         foregnKey: {
-          name: 'userId'
+          name: 'user_id'
         }
       });
     }
   }
-  Transacions.init({
+  Transactions.init({
     type: {
       type: DataTypes.STRING,
-      allowNul: false
+      allowNull: false
     },
-    amount: {
+    ammount: {
       type: DataTypes.INTEGER,
-      allowNul: false
+      allowNull: false
     },
     description: {
       type: DataTypes.TEXT
     },
-    categoryId: {
+    category_id: {
       type: DataTypes.INTEGER,
-      allowNul: false,
+      allowNull: false,
       references: {
         model: 'Category',
         key: 'id'
       }
     }, 
-    accountId: {
+    account_id: {
       type: DataTypes.INTEGER,
-      allowNul: false,
+      allowNull: false,
       references: {
         model: 'Account',
         key: 'id'
       }
     },
-    userId: {
+    user_id: {
       type: DataTypes.INTEGER,
-      allowNul: false,
+      allowNull: false,
       references: {
         model: 'User',
         key: 'id'
@@ -66,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Transaction',
+    tableName: 'transaction'
   });
-  return Transacions;
+  return Transactions;
 };

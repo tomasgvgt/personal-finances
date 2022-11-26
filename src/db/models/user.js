@@ -12,15 +12,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.User.hasMany(models.Account);
       models.User.hasMany(models.Transaction);
-      models.User.hasMany(models.Category);
+      models.User.belongsToMany(models.Category, {through: models.UserCategory});
     }
   }
   User.init({
-    firstName: {
+    first_name: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
-    lastName: {
+    last_name: {
       type: DataTypes.STRING(255),
       allowNull: false
     },
@@ -29,10 +29,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    }
   },
   {
     sequelize,
     modelName: 'User',
+    tableName: 'user',
   });
   return User;
 };
