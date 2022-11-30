@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Account extends Model {
     /**
@@ -10,42 +8,46 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Account.hasMany(models.Transaction);
-      models.Account.belongsTo(models.User, {
-        foregnKey: {
-          name: 'user_id'
-        }
+      this.hasMany(models.Transaction);
+      this.belongsTo(models.User, {
+        foreignKey: {
+          name: 'user_id',
+        },
       });
     }
   }
-  Account.init({
-    type: {
-      type: Datatypes.STRING,
-      allowNull: false
-    },
-    bank: { 
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    description: {
+  Account.init(
+    {
+      type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      bank: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description: {
         type: DataTypes.TEXT,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id',
+        },
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
+    {
+      sequelize,
+      modelName: 'Account',
+      tableName: 'account',
+      underscored: true,
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'User',
-        key: 'id'
-      }
-    }
-  }, {
-    sequelize,
-    modelName: 'Account',
-    tableName: 'account'
-  });
+  );
   return Account;
 };
