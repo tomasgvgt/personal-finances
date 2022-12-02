@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      amount: {
+      ammount: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -67,6 +67,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Transaction',
+      tableName: "transaction",
       underscored: true,
     },
   );
