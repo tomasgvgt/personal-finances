@@ -1,0 +1,31 @@
+* {
+  font-family: sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f5f5f5;
+  height: 100%;
+}
+
+h1 {
+  width: 80%;
+  margin: 0 auto;
+}
+
+form {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.form-field {
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+button {
+  grid-column: -1/1;
+}
