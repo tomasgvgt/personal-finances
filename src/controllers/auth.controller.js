@@ -1,4 +1,5 @@
 const db = require('../db/models');
+const hashPassword = require('../auth/hash.auth')
 
 const userSignUpController = async (req, res) => {
   try {
@@ -12,21 +13,29 @@ const userSignUpController = async (req, res) => {
      */
     console.log(req.body);
 
-    await db.User.create({
+    const hashedPassword = await hashPassword(password);
+    let user = await db.User.create({
       firstName,
       lastName,
       email,
-      password,
+      password: hashedPassword,
     });
-
-    res.sendStatus(201);
+    delete user.dataValues.password;
+    res.status(201)
+    res.send({
+      message: user
+    })
   } catch (error) {
     console.log(error);
-    res.status(400).send(error);
+    res.status(400)
+    res.send({
+        error
+    })
   }
 };
 
 const userLogInController = (req, res) => {
+  //login logic here
   res.sendStatus(404);
 };
 
