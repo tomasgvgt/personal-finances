@@ -1,9 +1,25 @@
 const userRouter = require('express').Router();
 const user = require('../controllers/user.controller');
 
+userRouter.get('/', async(req, res)=>{
+    try{
+        const data = await user.getAllUsers();
+        res.status(200);
+        res.send({
+            message: data
+        })
+    }catch(err){
+        res.status(400);
+        res.send({
+            error: "Couldnt load users"
+        })
+    }
+})
+
 userRouter.post('/', async(req, res)=>{
     try{
-        const data = await user.getUser(req.body.userName);
+        const userId = req.body.id;
+        const data = await user.getUser(userId);
         console.log(data);
         res.status(200);
         res.send({
@@ -17,24 +33,28 @@ userRouter.post('/', async(req, res)=>{
     }
 })
 
-userRouter.patch('/', async(req, res, next)=>{
+userRouter.patch('/:id', async(req, res, next)=>{
     try{
-        const data = await user.updateUser(req.body);
+        const data = req.body;
+        const userId = req.params.id;
+        await user.updateUser(userId, data);
         res.status(200);
         res.send({
-            message: data
+            message: "User updated successfully"
         })
     }catch(error){
         res.status(400);
+        console.log(error);
         res.send({
             error: "Couldnt modify user"
         })
     }
 })
 
-userRouter.delete('/', async (req, res)=>{
+userRouter.delete('/:id', async (req, res)=>{
     try{
-        const data = await user.deleteUser(req.body.userName);
+        const userId = req.params.id;
+        await user.deleteUser(userId);
         res.status(200);
         res.send({
             message: "User succesfully deleted"

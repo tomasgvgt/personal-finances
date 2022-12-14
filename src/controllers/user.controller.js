@@ -1,11 +1,18 @@
 const db = require('../db/models');
+const hashPassword = require('../auth/hash.auth')
 
 class User {
-    async getUser(userName){
+    async getAllUsers(){
+        const allUsers = await db.User.findAll();
+        console.log(allUsers);
+        return allUsers;
+    }
+    
+    async getUser(userId){
         const user = await db.User.findOne({
             where:
             {
-                email: userName
+                id: userId
             }
         })
         console.log(user);
@@ -13,30 +20,27 @@ class User {
         return user
     }
 
-    async updateUser(data){
-        let user = await db.User.findOne({
-            where:
-            {
-                email: data.userName
+    async updateUser(userId, data){
+        if(data.password) data.password = await hashPassword(data.password);
+        let isModified = await db.User.update({
+            ...data
+        }, {
+            where: {
+                id: userId
             }
         })
-        user.set({
-            ...user,
-            ...data
-        })
-        user.save();
-        delete user.dataValues.password;
-        return user
+        if(isModified[0]===0) throw new Error('User wasn`t modified');
     }
 
-    async deleteUser(userName){
-        let data = await db.User.destroy({
+    async deleteUser(userId){
+        let isDeleted = await db.User.destroy({
             where:
             {
-                email: userName
+                id: userId,
             }
         })
-        return data;
+        if (isDeleted === 0) throw new Error('User Couldnt be deleted');
+        return;
     }
 }
 

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const routes = require('./routes');
+const path = require('path');
 
 const PORT = process.env.PORT;
 
@@ -8,7 +9,6 @@ const app = express();
 
 app.engine('.html', require('ejs').__express);
 
-console.log('dirname', __dirname);
 app.set('views', path.join(__dirname, 'views'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'html');

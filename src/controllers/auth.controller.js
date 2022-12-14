@@ -3,7 +3,7 @@ const hashPassword = require('../auth/hash.auth')
 
 const userSignUpController = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, userName, email, password } = req.body;
 
     /**
      * TODO:
@@ -17,6 +17,7 @@ const userSignUpController = async (req, res) => {
     let user = await db.User.create({
       firstName,
       lastName,
+      userName,
       email,
       password: hashedPassword,
     });

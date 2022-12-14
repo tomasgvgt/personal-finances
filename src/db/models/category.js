@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Transaction);
       this.belongsToMany(models.User, {
         through: models.UserCategory,
+        foreignKey: {
+          name: 'categoryId'
+        }
       });
     }
   }
@@ -19,11 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      }
     },
     {
       sequelize,
