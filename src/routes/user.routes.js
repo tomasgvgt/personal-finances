@@ -2,9 +2,27 @@ const userRouter = require('express').Router();
 const user = require('../controllers/user.controller');
 const {getUserSchema, updateUserSchema} = require('../schemas/user.schema');
 const dataValidator = require('../middlewears/dataValidation');
+
 userRouter.get('/', async(req, res)=>{
     try{
         const data = await user.getAllUsers();
+        res.status(200);
+        res.send({
+            message: data
+        })
+    }catch(err){
+        res.status(400);
+        res.send({
+            error: "Couldnt load users"
+        })
+    }
+})
+
+userRouter.post('/', async(req, res)=>{
+    try{
+        const userId = req.body.id;
+        const data = await user.getUser(userId);
+        console.log(data);
         res.status(200);
         res.send({
             message: data
