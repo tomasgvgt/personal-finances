@@ -18,23 +18,6 @@ userRouter.get('/', async(req, res)=>{
     }
 })
 
-userRouter.post('/', async(req, res)=>{
-    try{
-        const userId = req.body.id;
-        const data = await user.getUser(userId);
-        console.log(data);
-        res.status(200);
-        res.send({
-            message: data
-        })
-    }catch(err){
-        res.status(400);
-        res.send({
-            error: "Couldnt load users"
-        })
-    }
-})
-
 userRouter.post('/',
     dataValidator(getUserSchema, 'body'),
     async(req, res)=>{
