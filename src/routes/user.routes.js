@@ -1,6 +1,7 @@
 const userRouter = require('express').Router();
 const user = require('../controllers/user.controller');
-
+const {getUserSchema, updateUserSchema} = require('../schemas/user.schema');
+const dataValidator = require('../middlewears/dataValidation');
 userRouter.get('/', async(req, res)=>{
     try{
         const data = await user.getAllUsers();
@@ -16,24 +17,28 @@ userRouter.get('/', async(req, res)=>{
     }
 })
 
-userRouter.post('/', async(req, res)=>{
-    try{
-        const userId = req.body.id;
-        const data = await user.getUser(userId);
-        console.log(data);
-        res.status(200);
-        res.send({
-            message: data
-        })
-    }catch(err){
-        res.status(400);
-        res.send({
-            error: "User not found"
-        })
-    }
+userRouter.post('/',
+    dataValidator(getUserSchema, 'body'),
+    async(req, res)=>{
+        try{
+            const userId = req.body.id;
+            const data = await user.getUser(userId);
+            console.log(data);
+            res.status(200);
+            res.send({
+                message: data
+            })
+        }catch(err){
+            res.status(400);
+            res.send({
+                error: "User not found"
+            })
+        }
 })
 
-userRouter.patch('/:id', async(req, res, next)=>{
+userRouter.patch('/:id',
+    dataValidator(updateUserSchema, 'body'),
+    async(req, res, next)=>{
     try{
         const data = req.body;
         const userId = req.params.id;
