@@ -4,7 +4,7 @@ const userForm = document.getElementById('user-form');
 
 const createUser = async (e) => {
   e.preventDefault();
-  console.log(e.target.elements['first-name'].value);
+  console.log(e.target.elements);
   const { elements } = e.target;
 
   // TODO: validate form
@@ -16,7 +16,7 @@ const createUser = async (e) => {
   };
 
   try {
-    const response = await fetch('/auth/sign-up', {
+    const response = await fetch('/api/v1/auth/sign-up', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
