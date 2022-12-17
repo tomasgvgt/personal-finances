@@ -10,17 +10,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.Category, {
         foreignKey: {
-          name: 'categoryId',
+          name: 'category_id',
         },
       });
       this.belongsTo(models.Account, {
         foreignKey: {
-          name: 'accountId',
+          name: 'account_id',
         },
       });
       this.belongsTo(models.User, {
         foreignKey: {
-          name: 'userId',
+          name: 'user_id',
         },
       });
     }
@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
   Transaction.init(
     {
       type: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('Income', 'Expense'),
         allowNull: false,
       },
-      ammount: {
+      amount: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

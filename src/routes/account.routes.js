@@ -3,7 +3,8 @@ const router = require('express').Router();
 
 router.post('/', async (req, res, next)=>{
     try{
-        let newAccount = await account.createAccount(req.body);
+        const data = req.body;
+        let newAccount = await account.createAccount(data);
         res.status(201);
         res.send({
             message: newAccount,
@@ -16,9 +17,10 @@ router.post('/', async (req, res, next)=>{
     }
 })
 
-router.post('/user-accounts', async (req, res, next)=>{
+router.get('/user-accounts/:id', async (req, res, next)=>{
     try{
-        let accounts = await account.getAccountsFromUser(req.body.userName);
+        const userId = req.params.id;
+        let accounts = await account.getAccountsFromUser(userId);
         res.status(200);
         res.send({
             message: accounts
@@ -31,9 +33,11 @@ router.post('/user-accounts', async (req, res, next)=>{
     }
 })
 
-router.patch('/', async (req, res, next)=>{
+router.patch('/:id', async (req, res, next)=>{
     try{
-        await account.updateAccount(req.body.userName, req.body.accountId, req.body.data);
+        const accountId = req.params.id;
+        const data = req.body;
+        await account.updateAccount(accountId, data);
         res.status(200);
         res.send({
             message: "Account successfully modified"
@@ -46,10 +50,10 @@ router.patch('/', async (req, res, next)=>{
     }
 })
 
-router.delete('/', async (req, res, next)=>{
+router.delete('/:id', async (req, res, next)=>{
     try{
-        const isDeleted = await account.deleteAccount(req.body.userName, req.body.accountId);
-        if(isDeleted === 0) throw new Error();
+        const accountId = req.params.id;
+        await account.deleteAccount(accountId);
         res.status(200);
         res.send({
             message: "Account successfully deleted"

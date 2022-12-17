@@ -7,15 +7,17 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+    static associate(models) {
+    }
   }
   UserCategory.init(
     {
       userId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: 'User',
+          table: 'user',
           key: 'id',
         },
       },
@@ -24,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         references: {
           model: 'Category',
+          table: 'category',
           key: 'id',
         },
       },
@@ -31,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'UserCategory',
+      tableName: 'user_category',
       underscored: true,
     },
   );

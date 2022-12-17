@@ -11,10 +11,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       type: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM,
+        values: ['income', 'expense'],
         allowNull: false
       },
-      ammount: {
+      amount: {
         type: Sequelize.INTEGER,
         allowNull: false
       },

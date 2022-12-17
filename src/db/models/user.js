@@ -8,10 +8,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.Account);
       this.hasMany(models.Transaction);
+      this.hasMany(models.Account);
       this.belongsToMany(models.Category, {
         through: models.UserCategory,
+        foreignKey:{
+          name: 'userId'
+        }
       });
     }
   }
@@ -24,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       lastName: {
         type: DataTypes.STRING(255),
         allowNull: false,
+      },
+      userName: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+        unique: true
       },
       email: {
         type: DataTypes.STRING(255),
@@ -39,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'User',
       tableName: 'user',
-      underscored: true,
+      underscored: true
     },
   );
   return User;

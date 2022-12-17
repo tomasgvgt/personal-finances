@@ -3,7 +3,6 @@ const db = require('../db/models');
 class Transaction{
     async createTransaction(data){
         try{
-            console.log("hey");
             const newTransaction = await db.Transaction.create(data);
             return newTransaction;
         }catch(error){
@@ -12,43 +11,68 @@ class Transaction{
         }
     }
 
-    async getTransactionsFromUser(userName){
+    async getTransactionsFromUser(userID, categoryID){
         try{
-            const user = await db.User.findOne({
-                where: {
-                    email: userName
-                }
-            });
-            const userTransactions = await db.Transaction.findAll({
-                where: {
-                    userId: user.id
-                }
-            })
-            return userTransactions;
+            let transactions;
+            if(categoryID){
+                console.log(categoryID);
+                transactions = await db.sequelize.query(
+                    `SELECT transaction.id, transaction.type, transaction.amount
+                    FROM transaction
+                    INNER JOIN user ON ${userID} = transaction.user_id
+                    WHERE transaction.category_id = ${categoryID}`
+                )
+            }else{
+                transactions = await db.sequelize.query(
+                    `SELECT transaction.id, transaction.type, transaction.amount 
+                    FROM transaction
+                    INNER JOIN user ON ${userID} = transaction.user_id`
+                );
+            }
+            return transactions;
         }catch(error){
             console.log(error);
             throw error;
         }
     }
 
-    async getTransactionsFromAccount(userName, accountID){
+    async getTransactionsFromAccount(accountID, categoryID){
         try{
-            const user = await db.User.findOne({
-                where: {
-                    email: userName
-                }
-            });
-            const transactions = db.Transaction.findOne({
-                where: {
-                    accountId: accountID,
-                    userId: user.id
-                }
-            });
+            let transactions;
+            if(categoryID){
+                console.log(categoryID);
+                transactions = await db.sequelize.query(
+                    `SELECT transaction.id, transaction.type, account.name, transaction.amount 
+                    FROM transaction
+                    INNER JOIN account ON ${accountID} = transaction.account_id
+                    WHERE transaction.category_id = ${categoryID}`
+                )
+            }else{
+                transactions = await db.sequelize.query(
+                    `SELECT transaction.id, transaction.type, account.name, transaction.amount
+                    FROM transaction
+                    INNER JOIN account ON ${accountID} = transaction.account_id`
+                );
+            }
             return transactions;
         }catch(error){
             console.log(error);
             throw error;
         }
+    }
+    async deleteTransaction(transactionID){
+        try{
+            const isTransactionDeleted = await db.Transaction.destroy({
+                where: {
+                    id: transactionID
+                }
+            });
+            if(isTransactionDeleted === 0) throw new Error("Transaction wasn't Deleted")
+        }catch(error){
+            console.log(error);
+            throw error;
+        }
+        
     }
 }
 

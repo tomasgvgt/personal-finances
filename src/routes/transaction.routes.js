@@ -3,7 +3,8 @@ const transaction = require('../controllers/transaction.controller');
 
 router.post('/', async(req, res, next)=>{
     try{
-        let newTransaction = await transaction.createTransaction(req.body);
+        let data = req.body;
+        let newTransaction = await transaction.createTransaction(data);
         res.status(200);
         res.send({
             message: newTransaction
@@ -16,9 +17,12 @@ router.post('/', async(req, res, next)=>{
     }
 })
 
-router.post('/user-transactions', async (req, res, next)=>{
+router.get('/user/:userId', async (req, res, next)=>{
     try{
-        let transactions = await transaction.getTransactionsFromUser(req.body.userName);
+        const userId = req.params.userId;
+        let categoryId;
+        if(req.query.category) categoryId = req.query.category;
+        let transactions = await transaction.getTransactionsFromUser(userId, categoryId);
         res.status(200);
         res.send({
             message: transactions
@@ -31,10 +35,12 @@ router.post('/user-transactions', async (req, res, next)=>{
     }
 })
 
-router.post('/account-transactions', async (req, res, next)=>{
+router.get('/account/:accountId', async (req, res, next)=>{
     try{
-        let {userName, accountId} = req.body;
-        let transactions = await transaction.getTransactionsFromAccount(userName, accountId);
+        let accountId = req.params.accountId;
+        let categoryId;
+        if(req.query.category) categoryId = req.query.category;
+        let transactions = await transaction.getTransactionsFromAccount(accountId, categoryId);
         res.status(200);
         res.send({
             message: transactions
@@ -46,5 +52,24 @@ router.post('/account-transactions', async (req, res, next)=>{
         })
     }
 })
+
+router.delete('/:id', async (req, res, next)=>{
+    try{
+        const transactionId = req.params.id;
+        await transaction.deleteTransaction(transactionId);
+        res.status(200);
+        res.send({
+            message: "Transaction Succesfully Deleted"
+        })
+    }catch(error){
+        res.status(400);
+        res.send({
+            error: 'Couldnt delete transactions'
+        })
+    }
+})
+
+
+
 
 module.exports = router;

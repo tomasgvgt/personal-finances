@@ -13,64 +13,49 @@ class Account{
         }
     }
 
-    async getAccountsFromUser(userName){
+    async getAccountsFromUser(userId){
         try{
             const user = await db.User.findOne({
                 where: {
-                    email: userName
-                }
+                    id: userId,
+                },
+                include: db.Account
             });
-            const userAccounts = await db.Account.findAll({
-                where: {
-                    userId: user.id
-                }
-            });
-            return userAccounts;
+            console.log(user);
+            return user;
         }catch(error){
             console.log(error);
             throw error;
         }
     }
 
-    async updateAccount(userName, accountId, data){
+    async updateAccount(accountId, data){
         try{
-            const user = await db.User.findOne({
-                where: {
-                    email: userName
-                }
-            });
-            const modifiedAccount = await db.Account.update(
+            const isModified = await db.Account.update(
                 {
                     ...data,
                 },
                 {
                     where: {
-                        userId: user.id,
                         id: accountId
                     }
                 }
             )
-            return modifiedAccount;
+            if (isModified[0] === 0) throw new Error('Account wasn`t modified');
         }catch(error){
             console.log(error);
             throw error;
         }
     }
 
-    async deleteAccount(userName, accountId){
+    async deleteAccount(accountId){
         try{
-            const user = await db.User.findOne({
+            const isDeleted = await db.Account.destroy({
                 where: {
-                    email: userName
-                }
-            });
-            const deletedAccount = await db.Account.destroy({
-                where: {
-                    userId: user.id,
                     id: accountId
                 }
             })
-            console.log(deletedAccount);
+            if (isDeleted === 0) throw new Error('Account Couldnt be deleted');
             return;
         }catch(error){
             console.log(error);
