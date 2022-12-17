@@ -1,7 +1,9 @@
 const account = require('../controllers/account.controller');
 const router = require('express').Router();
+const {createAccountSchema, getAccountSchema, updateAccountSchema, deleteAccountSchema} = require('../schemas/account.schema');
+const dataValidator = require('../middlewears/dataValidation');
 
-router.post('/', async (req, res, next)=>{
+router.post('/', dataValidator(createAccountSchema, 'body'), async (req, res, next)=>{
     try{
         const data = req.body;
         let newAccount = await account.createAccount(data);
@@ -17,9 +19,9 @@ router.post('/', async (req, res, next)=>{
     }
 })
 
-router.get('/user-accounts/:id', async (req, res, next)=>{
+router.get('/user-accounts/:userId', dataValidator(getAccountSchema, 'params'), async (req, res, next)=>{
     try{
-        const userId = req.params.id;
+        const userId = req.params.userId;
         let accounts = await account.getAccountsFromUser(userId);
         res.status(200);
         res.send({
@@ -33,7 +35,7 @@ router.get('/user-accounts/:id', async (req, res, next)=>{
     }
 })
 
-router.patch('/:id', async (req, res, next)=>{
+router.patch('/:id', dataValidator(updateAccountSchema, 'body'), async (req, res, next)=>{
     try{
         const accountId = req.params.id;
         const data = req.body;
@@ -50,7 +52,7 @@ router.patch('/:id', async (req, res, next)=>{
     }
 })
 
-router.delete('/:id', async (req, res, next)=>{
+router.delete('/:id', dataValidator(deleteAccountSchema, 'params'), async (req, res, next)=>{
     try{
         const accountId = req.params.id;
         await account.deleteAccount(accountId);

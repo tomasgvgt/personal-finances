@@ -1,12 +1,18 @@
 const categoryRouter = require('express').Router();
 const category = require('../controllers/category.controller');
+const dataValidator = require('../middlewears/dataValidation');
+const { createCategorySchema, 
+    getCategoriesSchema,
+    deleteCategorySchema,
+    updateCategorySchema
+} = require('../schemas/category.schema');
 
 //Create a new category
 //Automatically will be linked to user.
-categoryRouter.post('/', async (req, res, next)=>{
+categoryRouter.post('/', dataValidator(createCategorySchema, 'body'), async (req, res, next)=>{
     try{
-        let {userId, categoryName} = req.body;
-        let newCategory = await category.createCategory(userId, categoryName);
+        let {userId, name} = req.body;
+        let newCategory = await category.createCategory(userId, name);
         res.status(201);
         res.send({
             message: newCategory
@@ -18,7 +24,7 @@ categoryRouter.post('/', async (req, res, next)=>{
         })
     }
 })
-categoryRouter.delete('/:id', async (req, res, next)=>{
+categoryRouter.delete('/:id', dataValidator(deleteCategorySchema, 'params'),  async (req, res, next)=>{
     try{
         const categoryId = req.params.id;
         await category.deleteCategory(categoryId);
@@ -34,11 +40,11 @@ categoryRouter.delete('/:id', async (req, res, next)=>{
     }
 })
 
-categoryRouter.patch('/:id', async (req, res, next)=>{
+categoryRouter.patch('/', dataValidator(updateCategorySchema, 'body'), async (req, res, next)=>{
     try{
-        let categoryId = req.params.id;
-        let categoryName = req.body.categoryName;
-        await category.updateCategory(categoryId, categoryName);
+        let id = req.body.id;
+        let name = req.body.name;
+        await category.updateCategory(id, name);
         res.status(200);
         res.send({
             message: 'Category succesfully updated'
@@ -50,7 +56,7 @@ categoryRouter.patch('/:id', async (req, res, next)=>{
         })
     }
 })
-categoryRouter.get('/:userId', async (req, res, next)=>{
+categoryRouter.get('/:userId', dataValidator(getCategoriesSchema, 'params'), async (req, res, next)=>{
     try{
         let userId = req.params.userId;
         let categoriesFromUser = await category.getUserCategories(userId);
