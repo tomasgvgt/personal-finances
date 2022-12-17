@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Category, {
         foreignKey: {
           name: 'category_id',
+          onDelete: 'SET NULL',
+          onUpdate: 'SET NULL',
         },
       });
       this.belongsTo(models.Account, {
@@ -40,11 +42,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       categoryId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
           model: 'Category',
           key: 'id',
         },
+        onDelete: 'SET NULL',
+        onUpdate: 'SET NULL'
       },
       accountId: {
         type: DataTypes.INTEGER,

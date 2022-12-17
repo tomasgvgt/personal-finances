@@ -1,11 +1,10 @@
 const db = require('../db/models');
 
 class Category{
-    async createCategory(userId, categoryName){
+    async createCategory(userId, name){
         try{
-            console.log(categoryName);
             const newCategory = await db.Category.create({
-                name: categoryName
+                name
             });
             const user = await db.User.findOne({where: {id: userId}});
             newCategory.addUser(user);
@@ -22,13 +21,14 @@ class Category{
                 where: {
                     categoryId: categoryID
                 }
-            })
+            });
+            if(isUserCategoryDeleted === 0) throw new Error("Category wasn't Deleted")
             const isCategoryDeleted = await db.Category.destroy({
                 where: {
                     id: categoryID
                 }
             });
-            if(isUserCategoryDeleted === 0 || isCategoryDeleted === 0) throw new Error("Category wasn't Deleted")
+            if(isCategoryDeleted === 0) throw new Error("Category wasn't Deleted")
         }catch(error){
             console.log(error);
             throw error;

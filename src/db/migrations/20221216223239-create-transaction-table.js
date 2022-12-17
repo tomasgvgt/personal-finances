@@ -24,12 +24,13 @@ module.exports = {
       },
       category_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: 'category',
-          key: 'id'
+          key: 'id',
+          onDelete: 'SET NULL',
+          onUpdate: 'SET NULL',
         }
-      }, 
+      },
       account_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -43,7 +44,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'user',
-          key: 'id'
+          key: 'id',
         }
       },
       created_at: {
@@ -61,3 +62,4 @@ module.exports = {
     await queryInterface.dropTable('transaction');
   }
 };
+
