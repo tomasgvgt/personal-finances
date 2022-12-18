@@ -1,33 +1,36 @@
 {
-    "name": "personal-finances",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "nodemon src/index.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/tomasgvgt/personal-finances.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/tomasgvgt/personal-finances/issues"
-    },
-    "homepage": "https://github.com/tomasgvgt/personal-finances#readme",
-    "devDependencies": {
-        "nodemon": "^2.0.20"
-    },
-    "dependencies": {
-        "bcrypt": "^5.1.0",
-        "dotenv": "^16.0.3",
-        "ejs": "^3.1.8",
-        "express": "^4.18.2",
-        "joi": "^17.7.0",
-        "mysql2": "^2.3.3",
-        "pg": "^8.8.0",
-        "sequelize": "^6.25.6"
-    }
+  "name": "personal-finances",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomasgvgt/personal-finances.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomasgvgt/personal-finances/issues"
+  },
+  "homepage": "https://github.com/tomasgvgt/personal-finances#readme",
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3"
+  },
+  "dependencies": {
+    "@hapi/boom": "^10.0.0",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "joi": "^17.7.0",
+    "mysql2": "^2.3.3",
+    "pg": "^8.8.0",
+    "sequelize": "^6.25.6"
+  }
 }
