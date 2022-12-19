@@ -6,7 +6,8 @@ class Transaction{
             const newTransaction = await db.Transaction.create(data);
             return newTransaction;
         }catch(error){
-            console.log(error);
+            next(error);
+            //console.log(error);
             return error
         }
     }
