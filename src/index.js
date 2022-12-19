@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const routes = require('./routes');
+const Boom = require('@hapi/boom');
 const path = require('path');
 
 const PORT = process.env.PORT;
@@ -28,6 +29,18 @@ app.use(express.json());
 
 routes(app);
 
+app.use((err, req, res, next) => {
+  // console.error(err.stack);
+  // console.log(Object.keys(err.details));
+  const boom = new Boom.Boom(err);
+
+  console.log('______');
+  console.log(boom);
+  console.log('______');
+
+  res.status(500).send('Something broke!');
+});
+
 app.get('/', (req, res) => {
   res.render('users', {
     users,
@@ -36,6 +49,10 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on: http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server listening on: http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
