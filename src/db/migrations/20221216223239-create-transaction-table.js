@@ -26,9 +26,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'category',
-          key: 'id',
-          onDelete: 'SET NULL',
-          onUpdate: 'SET NULL',
+          key: 'id'
         }
       },
       account_id: {

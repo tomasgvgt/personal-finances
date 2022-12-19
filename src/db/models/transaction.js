@@ -11,8 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Category, {
         foreignKey: {
           name: 'category_id',
-          onDelete: 'SET NULL',
-          onUpdate: 'SET NULL',
         },
       });
       this.belongsTo(models.Account, {
@@ -30,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   Transaction.init(
     {
       type: {
-        type: DataTypes.ENUM('Income', 'Expense'),
+        type: DataTypes.ENUM('income', 'expense'),
         allowNull: false,
       },
       amount: {
@@ -45,9 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         references: {
           model: 'Category',
           key: 'id',
-        },
-        onDelete: 'SET NULL',
-        onUpdate: 'SET NULL'
+        }
       },
       accountId: {
         type: DataTypes.INTEGER,
