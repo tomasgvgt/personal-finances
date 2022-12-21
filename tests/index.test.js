@@ -12,7 +12,7 @@ describe('Personal-finances API V1', () => {
 
   describe('Authentication', () => {
     describe('Sign-up POST /sign-up', () => {
-      test.only('Should return 201 when user signs-up', async () => {
+      test('Should return 201 when user signs-up', async () => {
         const user = {
           firstName: 'Pepe',
           lastName: 'Perez',
@@ -30,7 +30,7 @@ describe('Personal-finances API V1', () => {
       });
     });
 
-    test.only('Should return password validation error when password is too short', async () => {
+    test('Should return password validation error when password is too short', async () => {
       const user = {
         firstName: 'Pepe',
         lastName: 'Perez',
@@ -45,7 +45,7 @@ describe('Personal-finances API V1', () => {
 
       //   console.log(response);
 
-      expect(response.status).toBe(4008);
+      expect(response.status).toBe(422);
     });
   });
 });

@@ -4,7 +4,6 @@ const hashPassword = require('../auth/hash.auth')
 class User {
     async getAllUsers(){
         const allUsers = await db.User.findAll();
-        console.log(allUsers);
         return allUsers;
     }
     
@@ -29,7 +28,11 @@ class User {
                 id: userId
             }
         })
-        if(isModified[0]===0) throw new Error('User wasn`t modified');
+        if(isModified[0]===0){
+            const error = new Error('User not found');
+            error.name = "NotFoundError";
+            throw error;
+        }
     }
 
     async deleteUser(userId){
@@ -39,7 +42,11 @@ class User {
                 id: userId,
             }
         })
-        if (isDeleted === 0) throw new Error('User Couldnt be deleted');
+        if (isDeleted === 0){
+            const error = new Error('User not found');
+            error.name = "NotFoundError";
+            throw error;
+        }
         return;
     }
 }
