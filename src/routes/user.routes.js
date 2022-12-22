@@ -41,16 +41,16 @@ userRouter.patch('/:id',
     }
 })
 
-userRouter.delete('/:id', async (req, res, next)=>{
-    try{
-        const userId = req.params.id;
-        await user.deleteUser(userId);
-        res.status(200);
-        res.send("Deleted")
-    }catch(err){
-        console.log(err);
-        next(err)
-    }
-})
+// userRouter.delete('/:id', async (req, res, next)=>{
+//     try{
+//         const userId = req.params.id;
+//         await user.deleteUser(userId);
+//         res.status(200);
+//         res.send("Deleted")
+//     }catch(err){
+//         console.log(err);
+//         next(err)
+//     }
+// })
 
 module.exports = userRouter;

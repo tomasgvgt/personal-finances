@@ -35,20 +35,20 @@ class User {
         }
     }
 
-    async deleteUser(userId){
-        let isDeleted = await db.User.destroy({
-            where:
-            {
-                id: userId,
-            }
-        })
-        if (isDeleted === 0){
-            const error = new Error('User not found');
-            error.name = "NotFoundError";
-            throw error;
-        }
-        return;
-    }
+    // async deleteUser(userId){
+    //     let isDeleted = await db.User.destroy({
+    //         where:
+    //         {
+    //             id: userId,
+    //         }
+    //     })
+    //     if (isDeleted === 0){
+    //         const error = new Error('User not found');
+    //         error.name = "NotFoundError";
+    //         throw error;
+    //     }
+    //     return;
+    // }
 }
 
 const user = new User();

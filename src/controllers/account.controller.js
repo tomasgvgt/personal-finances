@@ -49,18 +49,16 @@ class Account{
     }
 
     async deleteAccount(accountId){
-        try{
             const isDeleted = await db.Account.destroy({
                 where: {
                     id: accountId
                 }
             })
-            if (isDeleted === 0) throw new Error('Account Couldnt be deleted');
-            return;
-        }catch(error){
-            console.log(error);
-            throw error;
-        }
+            if (isDeleted === 0){
+                const error = new Error('Cant delete account');
+                error.name = "SequelizeForeignKeyConstraintError";
+                throw error;
+            }
     }
 }
 

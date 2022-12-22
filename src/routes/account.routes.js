@@ -8,14 +8,9 @@ router.post('/', dataValidator(createAccountSchema, 'body'), async (req, res, ne
         const data = req.body;
         let newAccount = await account.createAccount(data);
         res.status(201);
-        res.send({
-            message: newAccount,
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldn't create new account"
-        })
+        res.send(newAccount)
+    }catch(err){
+        next(err)
     }
 })
 
@@ -24,14 +19,9 @@ router.get('/user-accounts/:userId', dataValidator(getAccountsFromUserSchema, 'p
         const userId = req.params.userId;
         let accounts = await account.getAccountsFromUser(userId);
         res.status(200);
-        res.send({
-            message: accounts
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldnt load accounts"
-        })
+        res.send(accounts);
+    }catch(err){
+        next(err);
     }
 })
 
@@ -44,14 +34,9 @@ router.patch('/:id',
         const data = req.body;
         await account.updateAccount(accountId, data);
         res.status(200);
-        res.send({
-            message: "Account successfully modified"
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldn't modify account"
-        })
+        res.send("Modiefied")
+    }catch(err){
+        next(err);
     }
 })
 
@@ -60,14 +45,9 @@ router.delete('/:id', dataValidator(deleteAccountSchema, 'params'), async (req, 
         const accountId = req.params.id;
         await account.deleteAccount(accountId);
         res.status(200);
-        res.send({
-            message: "Account successfully deleted"
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldn't delete account"
-        })
+        res.send("Deleted")
+    }catch(err){
+        next(err);
     }
 })
 

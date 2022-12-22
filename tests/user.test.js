@@ -45,15 +45,15 @@ describe('User', ()=>{
             
         })
     })
-    describe('Delete /user/:id', ()=>{
-        test('Should return 200 when user 1 is deleted', async()=>{
-            const response = await request(app).delete('/api/v1/user/1');
-            expect(response.status).toBe(200);
-        })
-        test('Should return 404 when user 10 is not found', async()=>{
-            const response = await request(app).delete('/api/v1/user/10');
-            expect(response.status).toBe(404);
-        })
-    })
+    // describe('Delete /user/:id', ()=>{
+    //     test('Should return 404 when user 10 is not found', async()=>{
+    //         const response = await request(app).delete('/api/v1/user/10');
+    //         expect(response.status).toBe(404);
+    //     })
+    //     test('Should return 200 when user 1 is deleted', async()=>{
+    //         const response = await request(app).delete('/api/v1/user/1');
+    //         expect(response.status).toBe(200);
+    //     })
+    // })
 
 })
