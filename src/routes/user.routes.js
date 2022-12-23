@@ -3,7 +3,7 @@ const user = require('../controllers/user.controller');
 const {getUserSchema, updateUserSchema} = require('../schemas/user.schema');
 const dataValidator = require('../middlewears/dataValidation');
 
-userRouter.get('/', async(req, res)=>{
+userRouter.get('/', async(req, res, next)=>{
     try{
         const data = await user.getAllUsers();
         res.status(200);
