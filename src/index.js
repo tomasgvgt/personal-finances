@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const errorHandler = require('./middlewears/errorHandling');
 const routes = require('./routes');
 const Boom = require('@hapi/boom');
 const path = require('path');
@@ -29,17 +30,7 @@ app.use(express.json());
 
 routes(app);
 
-app.use((err, req, res, next) => {
-  // console.error(err.stack);
-  // console.log(Object.keys(err.details));
-  const boom = new Boom.Boom(err);
-
-  console.log('______');
-  console.log(boom);
-  console.log('______');
-
-  res.status(500).send('Something broke!');
-});
+app.use(errorHandler());
 
 app.get('/', (req, res) => {
   res.render('users', {

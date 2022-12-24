@@ -6,7 +6,8 @@ class Transaction{
             const newTransaction = await db.Transaction.create(data);
             return newTransaction;
         }catch(error){
-            console.log(error);
+            next(error);
+            //console.log(error);
             return error
         }
     }
@@ -60,6 +61,27 @@ class Transaction{
             throw error;
         }
     }
+
+    async updateTransaction(transactionId, data){
+        try{
+            const isModified = await db.Transaction.update(
+                {
+                    ...data,
+                },
+                {
+                    where: {
+                        id: transactionId,
+                    }
+                }
+            )
+            if(isModified[0]===0) throw new Error('Transaction wasn`t modified');
+            return;
+        }catch(error){
+            console.log(error);
+            throw error;
+        }
+    }
+
     async deleteTransaction(transactionID){
         try{
             const isTransactionDeleted = await db.Transaction.destroy({
