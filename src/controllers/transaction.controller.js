@@ -63,7 +63,6 @@ class Transaction{
     }
 
     async updateTransaction(transactionId, data){
-        try{
             const isModified = await db.Transaction.update(
                 {
                     ...data,
@@ -74,12 +73,11 @@ class Transaction{
                     }
                 }
             )
-            if(isModified[0]===0) throw new Error('Transaction wasn`t modified');
-            return;
-        }catch(error){
-            console.log(error);
-            throw error;
-        }
+            if(isModified[0]===0){
+                const error = new Error('Cant delete transaction');
+                error.name = "ValidationError";
+                throw error;
+            }
     }
 
     async deleteTransaction(transactionID){

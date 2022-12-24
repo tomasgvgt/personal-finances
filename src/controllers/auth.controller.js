@@ -11,7 +11,6 @@ const userSignUpController = async (req, res, next) => {
      * - Password encryption
      * - Authentication
      */
-    console.log(req.body);
 
     const hashedPassword = await hashPassword(password);
     let user = await db.User.create({

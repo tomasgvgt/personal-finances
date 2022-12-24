@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "./run_test.sh",
     "dev": "nodemon src/index.js"
   },
   "repository": {

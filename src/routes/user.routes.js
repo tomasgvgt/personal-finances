@@ -3,37 +3,27 @@ const user = require('../controllers/user.controller');
 const {getUserSchema, updateUserSchema} = require('../schemas/user.schema');
 const dataValidator = require('../middlewears/dataValidation');
 
-userRouter.get('/', async(req, res)=>{
+userRouter.get('/', async(req, res, next)=>{
     try{
         const data = await user.getAllUsers();
         res.status(200);
-        res.send({
-            message: data
-        })
+        res.send(data);
     }catch(err){
-        res.status(400);
-        res.send({
-            error: "Couldnt load users"
-        })
+        next(err)
     }
 })
 
 userRouter.post('/',
     dataValidator(getUserSchema, 'body'),
-    async(req, res)=>{
+    async(req, res, next)=>{
         try{
             const userId = req.body.id;
             const data = await user.getUser(userId);
             console.log(data);
             res.status(200);
-            res.send({
-                message: data
-            })
+            res.send(data);
         }catch(err){
-            res.status(400);
-            res.send({
-                error: "User not found"
-            })
+            next(err);
         }
 })
 
@@ -45,32 +35,22 @@ userRouter.patch('/:id',
         const userId = req.params.id;
         await user.updateUser(userId, data);
         res.status(200);
-        res.send({
-            message: "User updated successfully"
-        })
-    }catch(error){
-        res.status(400);
-        console.log(error);
-        res.send({
-            error: "Couldnt modify user"
-        })
+        res.send("Updated")
+    }catch(err){
+        next(err)
     }
 })
 
-userRouter.delete('/:id', async (req, res)=>{
-    try{
-        const userId = req.params.id;
-        await user.deleteUser(userId);
-        res.status(200);
-        res.send({
-            message: "User succesfully deleted"
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldnt delete user"
-        })
-    }
-})
+// userRouter.delete('/:id', async (req, res, next)=>{
+//     try{
+//         const userId = req.params.id;
+//         await user.deleteUser(userId);
+//         res.status(200);
+//         res.send("Deleted")
+//     }catch(err){
+//         console.log(err);
+//         next(err)
+//     }
+// })
 
 module.exports = userRouter;

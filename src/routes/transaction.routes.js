@@ -80,11 +80,8 @@ router.patch('/:id',
         res.send({
             message: "Transaction successfully modified"
         })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldn't modify transaction"
-        })
+    }catch(err){
+       next(err);
     }
 })
 

@@ -30,37 +30,34 @@ class Account{
     }
 
     async updateAccount(accountId, data){
-        try{
-            const isModified = await db.Account.update(
-                {
-                    ...data,
-                },
-                {
-                    where: {
-                        id: accountId
-                    }
+        const isModified = await db.Account.update(
+            {
+                ...data,
+            },
+            {
+                where: {
+                    id: accountId
                 }
-            )
-            if (isModified[0] === 0) throw new Error('Account wasn`t modified');
-        }catch(error){
-            console.log(error);
+            }
+        )
+        if(isModified[0]===0){
+            const error = new Error('account not found');
+            error.name = "Validation Error";
             throw error;
         }
     }
 
     async deleteAccount(accountId){
-        try{
             const isDeleted = await db.Account.destroy({
                 where: {
                     id: accountId
                 }
             })
-            if (isDeleted === 0) throw new Error('Account Couldnt be deleted');
-            return;
-        }catch(error){
-            console.log(error);
-            throw error;
-        }
+            if (isDeleted === 0){
+                const error = new Error('Cant delete account');
+                error.name = "SequelizeForeignKeyConstraintError";
+                throw error;
+            }
     }
 }
 
