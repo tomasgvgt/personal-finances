@@ -18,13 +18,24 @@ module.exports = {
       name: "Travel",
       created_at: new Date(),
       updated_at: new Date()
-  }]);
-  await queryInterface.bulkInsert('user_category', [{
-    user_id: 1,
-    category_id: 2,
-    created_at: new Date(),
-    updated_at: new Date()
-  }]);
+    }]);
+    await queryInterface.bulkInsert('user_category', [{
+      user_id: 1,
+      category_id: 2,
+      created_at: new Date(),
+      updated_at: new Date()
+    }]);
+    await queryInterface.bulkInsert('category', [{
+      name: "Expenses",
+      created_at: new Date(),
+      updated_at: new Date()
+    }]);
+    await queryInterface.bulkInsert('user_category', [{
+      user_id: 1,
+      category_id: 3,
+      created_at: new Date(),
+      updated_at: new Date()
+    }]);
   },
 
   async down (queryInterface, Sequelize) {

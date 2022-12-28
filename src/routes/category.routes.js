@@ -14,14 +14,9 @@ categoryRouter.post('/', dataValidator(createCategorySchema, 'body'), async (req
         let {userId, name} = req.body;
         let newCategory = await category.createCategory(userId, name);
         res.status(201);
-        res.send({
-            message: newCategory
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldnt create new Category"
-        })
+        res.send(newCategory)
+    }catch(err){
+        next(err);
     }
 })
 categoryRouter.delete('/:id', dataValidator(deleteCategorySchema, 'params'),  async (req, res, next)=>{
@@ -29,14 +24,9 @@ categoryRouter.delete('/:id', dataValidator(deleteCategorySchema, 'params'),  as
         const categoryId = req.params.id;
         await category.deleteCategory(categoryId);
         res.status(200);
-        res.send({
-            message: 'Category succesfully deleted'
-        })
+        res.send("Deleted")
     }catch(error){
-        res.status(400);
-        res.send({
-            error: "Category couldnt be deleted"
-        })
+        next(err)
     }
 })
 
@@ -46,28 +36,18 @@ categoryRouter.patch('/', dataValidator(updateCategorySchema, 'body'), async (re
         let name = req.body.name;
         await category.updateCategory(id, name);
         res.status(200);
-        res.send({
-            message: 'Category succesfully updated'
-        })
+        res.send("Updated")
     }catch(error){
-        res.status(400);
-        res.send({
-            error: "Category couldnt be updated"
-        })
+        next(error)
     }
 })
 categoryRouter.get('/:userId', dataValidator(getCategoriesSchema, 'params'), async (req, res, next)=>{
     try{
         let userId = req.params.userId;
         let categoriesFromUser = await category.getUserCategories(userId);
-        res.status(200).send({
-            message: categoriesFromUser
-        })
+        res.status(200).send(categoriesFromUser)
     }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldnt get Categories from User"
-        })
+        nerxt(error);
     }
 })
 

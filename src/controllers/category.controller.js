@@ -7,7 +7,7 @@ class Category{
                 name
             });
             const user = await db.User.findOne({where: {id: userId}});
-            newCategory.addUser(user);
+            await newCategory.addUser(user);
             return newCategory;
         }catch(error){
             console.log(error);
