@@ -1,5 +1,5 @@
 const db = require('../db/models');
-const hashPassword = require('../auth/hash.auth');
+const {hashPassword} = require('../auth/hash.auth');
 
 const userSignUpController = async (req, res, next) => {
   try {
