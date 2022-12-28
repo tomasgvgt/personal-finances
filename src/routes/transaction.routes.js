@@ -17,12 +17,10 @@ router.post('/',
     try{
         let data = req.body;
         let newTransaction = await transaction.createTransaction(data);
-        res.status(200);
-        res.send({
-            message: newTransaction
-        })
-    }catch(error){
-        next(error);
+        res.status(201);
+        res.send(newTransaction);
+    }catch(err){
+        next(err);
     }
 })
 
@@ -36,14 +34,9 @@ router.get('/user/:userId',
         if(req.query.category) categoryId = req.query.category;
         let transactions = await transaction.getTransactionsFromUser(userId, categoryId);
         res.status(200);
-        res.send({
-            message: transactions
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldnt load transactions"
-        })
+        res.send(transactions)
+    }catch(err){
+        next(err);
     }
 })
 
@@ -57,29 +50,22 @@ router.get('/account/:accountId',
         if(req.query.category) categoryId = req.query.category;
         let transactions = await transaction.getTransactionsFromAccount(accountId, categoryId);
         res.status(200);
-        res.send({
-            message: transactions
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: "Couldnt load transactions"
-        })
+        res.send(transactions)
+    }catch(err){
+        next(err);
     }
 })
 
 router.patch('/:id',
     dataValidator(updateTransactionSchema, 'body'),
     dataValidator(getFromTransactionIdSchema, 'params'),
-    async (req, res)=>{
+    async (req, res, next)=>{
     try{
         const transactionId = req.params.id;
         const data = req.body;
         await transaction.updateTransaction(transactionId, data);
         res.status(200);
-        res.send({
-            message: "Transaction successfully modified"
-        })
+        res.send("Updated")
     }catch(err){
        next(err);
     }
@@ -93,14 +79,9 @@ router.delete('/:id',
         const transactionId = req.params.id;
         await transaction.deleteTransaction(transactionId);
         res.status(200);
-        res.send({
-            message: "Transaction Succesfully Deleted"
-        })
-    }catch(error){
-        res.status(400);
-        res.send({
-            error: 'Couldnt delete transactions'
-        })
+        res.send("Deleted")
+    }catch(err){
+        next(err);
     }
 })
 
