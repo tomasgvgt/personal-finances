@@ -31,7 +31,6 @@ const userSignUpController = async (req, res, next) => {
 };
 
 const userLogInController = async (req, res, next)=>{
-  console.log("imInUserLoginController");
   try{
     res.json({
       message: "User",
