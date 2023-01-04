@@ -1,6 +1,7 @@
 const db = require('../db/models');
 const {hashPassword} = require('../auth/hash.auth');
 const localStrategy = require('../auth/localStrategy.auth');
+const {createToken} = require('../auth/token.auth');
 
 const userSignUpController = async (req, res, next) => {
   try {
@@ -32,10 +33,11 @@ const userSignUpController = async (req, res, next) => {
 
 const userLogInController = async (req, res, next)=>{
   try{
+    const token = createToken(req.user)
     res.json({
-      message: "User",
-      body: req.user
-    })
+      id: req.user.id,
+      token
+    });
   }catch(err){
     next(err);
   }
