@@ -2,6 +2,7 @@ const userRouter = require('express').Router();
 const user = require('../controllers/user.controller');
 const {getUserSchema, updateUserSchema} = require('../schemas/user.schema');
 const dataValidator = require('../middlewears/dataValidation');
+const passport = require('../auth');
 
 userRouter.get('/', async(req, res, next)=>{
     try{
@@ -13,11 +14,12 @@ userRouter.get('/', async(req, res, next)=>{
     }
 })
 
-userRouter.post('/',
-    dataValidator(getUserSchema, 'body'),
+userRouter.get('/:id',
+    passport.authenticate('jwt', {session: false}),
+    //dataValidator(getUserSchema, 'user'),
     async(req, res, next)=>{
         try{
-            const userId = req.body.id;
+            const userId = req.user.id;
             const data = await user.getUser(userId);
             console.log(data);
             res.status(200);
@@ -28,11 +30,12 @@ userRouter.post('/',
 })
 
 userRouter.patch('/:id',
+    passport.authenticate('jwt', {session: false}),
     dataValidator(updateUserSchema, 'body'),
     async(req, res, next)=>{
     try{
         const data = req.body;
-        const userId = req.params.id;
+        const userId = req.user.id;
         await user.updateUser(userId, data);
         res.status(200);
         res.send("Updated")
