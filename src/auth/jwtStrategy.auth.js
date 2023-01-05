@@ -11,7 +11,6 @@ const jwtStrategy = new Strategy(options, async (payload, done)=>{
     const error = new Error('Unauthorized');
     error.name = "UnauthorizedError";
     const theUser = await user.getUser(payload.id);
-    console.log("Im in JWT strategy");
     if(!theUser) done(error, false);
     done(null, payload)
   }catch(err){
