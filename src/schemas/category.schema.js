@@ -7,7 +7,6 @@ const userId = Joi.number();
 
 const createCategorySchema = Joi.object({
     name: name.required(),
-    userId: userId.required(),
 })
 const getCategoriesSchema = Joi.object({
     userId: userId.required()

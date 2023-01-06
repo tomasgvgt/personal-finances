@@ -60,7 +60,7 @@ class Account{
             console.log(isDeleted);
             if (isDeleted === 0){
                 const error = new Error('Cant delete account');
-                error.name = "SequelizeForeignKeyConstraintError";
+                error.name = "ValidationError";
                 throw error;
             }
     }
