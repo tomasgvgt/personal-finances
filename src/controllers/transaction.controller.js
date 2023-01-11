@@ -7,7 +7,6 @@ class Transaction{
             return newTransaction;
         }catch(error){
             next(error);
-            //console.log(error);
             return error
         }
     }
@@ -16,7 +15,6 @@ class Transaction{
         try{
             let transactions;
             if(categoryID){
-                console.log(categoryID);
                 transactions = await db.sequelize.query(
                     `SELECT transaction.id, transaction.type, transaction.amount
                     FROM transaction
@@ -37,7 +35,6 @@ class Transaction{
             }
             return transactions;
         }catch(error){
-            console.log(error);
             throw error;
         }
     }
@@ -46,7 +43,6 @@ class Transaction{
         try{
             let transactions;
             if(categoryID){
-                console.log(categoryID);
                 transactions = await db.sequelize.query(
                     `SELECT transaction.id, transaction.type, account.name, transaction.amount 
                     FROM transaction
@@ -63,7 +59,6 @@ class Transaction{
             }
             return transactions;
         }catch(error){
-            console.log(error);
             throw error;
         }
     }
@@ -97,7 +92,6 @@ class Transaction{
             });
             if(isTransactionDeleted === 0) throw new Error("Transaction wasn't Deleted")
         }catch(error){
-            console.log(error);
             throw error;
         }
         

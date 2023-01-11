@@ -15,7 +15,6 @@ class User {
                 id: userId
             }
         })
-        console.log(user);
         delete user.dataValues.password;
         return user
     }

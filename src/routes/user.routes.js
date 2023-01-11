@@ -16,12 +16,10 @@ userRouter.get('/', async(req, res, next)=>{
 
 userRouter.get('/:id',
     passport.authenticate('jwt', {session: false}),
-    //dataValidator(getUserSchema, 'user'),
     async(req, res, next)=>{
         try{
             const userId = req.user.id;
             const data = await user.getUser(userId);
-            console.log(data);
             res.status(200);
             res.send(data);
         }catch(err){
@@ -51,7 +49,6 @@ userRouter.patch('/:id',
 //         res.status(200);
 //         res.send("Deleted")
 //     }catch(err){
-//         console.log(err);
 //         next(err)
 //     }
 // })
