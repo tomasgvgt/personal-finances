@@ -3,7 +3,6 @@ const app = require('../src');
 
 let token;
 
-//1. Sign up new user.
 describe('Sign-up', () => {
     describe('Sign-up POST /sign-up', () => {
       test('Should return 201 when user signs-up', async () => {
@@ -26,7 +25,6 @@ describe('Sign-up', () => {
 });
 
 
-//2. Login User and get token.
 describe('Log-in', () => {
     describe('Log-in POST /log-in', () => {
       test('Should return 200 when user logs-in', async () => {
