@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../src');
 
 let token;
+let accountID;
 
 describe('Sign-up', () => {
     describe('Sign-up POST /sign-up', () => {
@@ -66,6 +67,7 @@ describe('Account', ()=>{
             .set('Authorization', `Bearer ${token}`)
             .send(data)
             expect(response.status).toBe(201);
+            accountID = response.body.id;
             
         })
         test('Should return status 422 when creating a new account with missing data', async()=>{
@@ -90,7 +92,7 @@ describe('Account', ()=>{
                 bank: "CHASE",
                 description: "My savings account for personal expenses",
             };
-            const response = await request(app).patch('/api/v1/account/3')
+            const response = await request(app).patch(`/api/v1/account/${accountID}`)
             .set('Authorization', `Bearer ${token}`)
             .send(data)
             expect(response.status).toBe(200);
@@ -99,7 +101,7 @@ describe('Account', ()=>{
             const data = {
                 nam: "Savings",
             }
-            const response = await request(app).patch('/api/v1/account/3')
+            const response = await request(app).patch(`/api/v1/account/${accountID}`)
             .set('Authorization', `Bearer ${token}`)
             .send(data)
             expect(response.status).toBe(422);
@@ -108,7 +110,7 @@ describe('Account', ()=>{
     })
     describe('Delete /account/:id', ()=>{
         test('Should return 200 when account is deleted', async()=>{
-            const response = await request(app).delete('/api/v1/account/3')
+            const response = await request(app).delete(`/api/v1/account/${accountID}`)
             .set('Authorization', `Bearer ${token}`)
             expect(response.status).toBe(200);
         })
