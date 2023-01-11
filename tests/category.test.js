@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../src');
 
 let token;
+let categoryID;
 
 describe('Sign-up', () => {
     describe('Sign-up POST /sign-up', () => {
@@ -59,6 +60,7 @@ describe('Category', ()=>{
             .set('Authorization', `Bearer ${token}`)
             .send(data);
             expect(response.status).toBe(201);
+            categoryID = response.body.id;
             
         })
         test('Should return status 422 when creating a new category with missing data', async()=>{
@@ -74,7 +76,7 @@ describe('Category', ()=>{
     describe('Delete /category/:id', ()=>{
         test('Should return 200 when category is deleted', async()=>{
             const response = await request(app)
-            .delete('/api/v1/category/4')
+            .delete(`/api/v1/category/${categoryID}`)
             .set('Authorization', `Bearer ${token}`)
             expect(response.status).toBe(200);
         })
