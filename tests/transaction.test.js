@@ -55,7 +55,6 @@ describe('Post /category', ()=>{
         .send(data);
         expect(response.status).toBe(201);
         categoryID = response.body.id;
-        console.log(categoryID);
         
     })
 })

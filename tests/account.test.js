@@ -40,7 +40,6 @@ describe('Log-in', () => {
 
         expect(response.status).toBe(200);
         token = response.body.token;
-        console.log(token);
     });
 });
 });

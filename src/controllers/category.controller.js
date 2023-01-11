@@ -10,7 +10,6 @@ class Category{
             await newCategory.addUser(user);
             return newCategory;
         }catch(error){
-            console.log(error);
             throw error;
         }
     }
@@ -67,7 +66,6 @@ class Category{
             }
             return;
         }catch(error){
-            console.log(error);
             throw error;
         }
     }
@@ -82,7 +80,6 @@ class Category{
             return categoriesFromUser;
         }
         catch(error){
-            console.log(error);
             throw error;
         }
     }

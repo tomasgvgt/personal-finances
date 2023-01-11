@@ -8,7 +8,6 @@ class Account{
             return newAccount;
         }
         catch(error){
-            console.log(error);
             throw error;
         }
     }
@@ -21,10 +20,8 @@ class Account{
                 },
                 include: db.Account
             });
-            console.log(user);
             return user;
         }catch(error){
-            console.log(error);
             throw error;
         }
     }
@@ -41,7 +38,6 @@ class Account{
                 }
             }
         )
-        console.log(isModified);
         if(isModified[0]===0){
             const error = new Error('account not found');
             error.name = "ValidationError";
@@ -50,14 +46,12 @@ class Account{
     }
 
     async deleteAccount(userId, accountId){
-        console.log("Im in delete account");
             const isDeleted = await db.Account.destroy({
                 where: {
                     id: accountId,
                     user_id: userId
                 }
             })
-            console.log(isDeleted);
             if (isDeleted === 0){
                 const error = new Error('Cant delete account');
                 error.name = "ValidationError";
