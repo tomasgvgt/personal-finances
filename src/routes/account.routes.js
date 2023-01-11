@@ -9,12 +9,8 @@ router.post('/',
     dataValidator(createAccountSchema, 'body'),
     async (req, res, next)=>{
         try{
-            if(req.body.userId !== req.user.id){
-                const error = new Error('Unauthorized');
-                error.name = "UnauthorizedError";
-                throw error;
-            }
             const data = req.body;
+            data.userId = req.user.id
             let newAccount = await account.createAccount(data);
             res.status(201);
             res.send(newAccount)

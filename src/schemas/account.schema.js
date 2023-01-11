@@ -14,8 +14,7 @@ const createAccountSchema = Joi.object({
     type: type.required(),
     bank: bank.required(),
     description,
-    total,
-    userId: userId.required()
+    total
 })
 
 const getAccountsFromUserSchema = Joi.object({
