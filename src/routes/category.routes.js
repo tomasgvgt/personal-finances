@@ -8,8 +8,6 @@ const { createCategorySchema,
     updateCategorySchema
 } = require('../schemas/category.schema');
 
-//Create a new category
-//Automatically will be linked to user.
 categoryRouter.post('/',
     passport.authenticate('jwt', {session: false}),
     dataValidator(createCategorySchema, 'body'),
