@@ -1,46 +1,50 @@
 const userRouter = require('express').Router();
 const user = require('../controllers/user.controller');
-const {getUserSchema, updateUserSchema} = require('../schemas/user.schema');
-const dataValidator = require('../middlewears/dataValidation');
+const { getUserSchema, updateUserSchema } = require('../schemas/user.schema');
+const dataValidator = require('../middlewares/dataValidation');
 const passport = require('../auth');
 
-userRouter.get('/', async(req, res, next)=>{
-    try{
-        const data = await user.getAllUsers();
-        res.status(200);
-        res.send(data);
-    }catch(err){
-        next(err)
-    }
-})
+userRouter.get('/', async (req, res, next) => {
+  try {
+    const data = await user.getAllUsers();
+    res.status(200);
+    res.send(data);
+  } catch (err) {
+    next(err);
+  }
+});
 
-userRouter.get('/:id',
-    passport.authenticate('jwt', {session: false}),
-    async(req, res, next)=>{
-        try{
-            const userId = req.user.id;
-            const data = await user.getUser(userId);
-            res.status(200);
-            res.send(data);
-        }catch(err){
-            next(err);
-        }
-})
-
-userRouter.patch('/:id',
-    passport.authenticate('jwt', {session: false}),
-    dataValidator(updateUserSchema, 'body'),
-    async(req, res, next)=>{
-    try{
-        const data = req.body;
-        const userId = req.user.id;
-        await user.updateUser(userId, data);
-        res.status(200);
-        res.send("Updated")
-    }catch(err){
-        next(err)
+userRouter.get(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const userId = req.user.id;
+      const data = await user.getUser(userId);
+      res.status(200);
+      res.send(data);
+    } catch (err) {
+      next(err);
     }
-})
+  },
+);
+
+userRouter.patch(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  dataValidator(updateUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const data = req.body;
+      const userId = req.user.id;
+      await user.updateUser(userId, data);
+      res.status(200);
+      res.send('Updated');
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 // userRouter.delete('/:id', async (req, res, next)=>{
 //     try{
