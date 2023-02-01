@@ -1,0 +1,39 @@
+<%- include('head.html') %>
+<h1><%= title %></h1>
+<form id="new-account-form">
+  <div class="form-field mb-3">
+    <label for="account-name" class="form-label">Account name:</label>
+    <input
+      type="text"
+      name="account-name"
+      id="account-name"
+      class="form-control"
+    />
+  </div>
+  <div class="form-field mb-3">
+    <label for="account-type" class="form-label">Account type:</label>
+    <input
+      type="text"
+      name="account-type"
+      id="account-type"
+      class="form-control"
+    />
+  </div>
+  <div class="form-field mb-3">
+    <label for="bank" class="form-label">Bank:</label>
+    <input type="text" name="bank" id="bank" class="form-control" />
+  </div>
+  <div class="form-field mb-3">
+    <label for="description" class="form-label">Description:</label>
+    <input
+      type="text"
+      name="description"
+      id="description"
+      class="form-control"
+    />
+  </div>
+  <div class="form-field mb-3">
+    <button class="btn btn-primary">Save</button>
+  </div>
+</form>
+<%- include('foot.html') %>

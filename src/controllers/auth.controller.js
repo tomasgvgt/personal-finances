@@ -1,10 +1,11 @@
 const db = require('../db/models');
-const {hashPassword} = require('../auth/hash.auth');
+const { hashPassword } = require('../auth/hash.auth');
 const localStrategy = require('../auth/localStrategy.auth');
-const {createToken} = require('../auth/token.auth');
+const { createToken } = require('../auth/token.auth');
 
 const userSignUpController = async (req, res, next) => {
   try {
+    console.log(req.body);
     const { firstName, lastName, userName, email, password } = req.body;
     /**
      * TODO:
@@ -22,23 +23,24 @@ const userSignUpController = async (req, res, next) => {
       password: hashedPassword,
     });
     delete user.dataValues.password;
+    const token = createToken(user);
     res.status(201);
     res.send({
-      message: user,
+      token,
     });
   } catch (error) {
     next(error);
   }
 };
 
-const userLogInController = async (req, res, next)=>{
-  try{
-    const token = createToken(req.user)
+const userLogInController = async (req, res, next) => {
+  try {
+    const token = createToken(req.user);
     res.json({
       id: req.user.id,
-      token
+      token,
     });
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 };

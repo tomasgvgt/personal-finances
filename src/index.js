@@ -17,13 +17,6 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'html');
 
-const users = [
-  { name: 'toby', email: 'toby@gmail.com' },
-  { name: 'loki', email: 'loki@gmail.com' },
-  { name: 'jane', email: 'jane@gmail.com' },
-  { name: 'co', email: 'co@gmail.com' },
-];
-
 app.use(express.json());
 
 //app.use('/auth', authRouter);
@@ -33,8 +26,35 @@ routes(app);
 app.use(errorHandler());
 
 app.get('/', (req, res) => {
-  res.render('users', {
-    users,
+  res.render('home', {
+    title: 'ejs example working',
+    header: 'Some users',
+  });
+});
+
+app.get('/login', (req, res) => {
+  res.render('login', {
+    title: 'ejs example working',
+    header: 'Some users',
+  });
+});
+
+app.get('/sign-up', (req, res) => {
+  res.render('sign-up', {
+    title: 'ejs example working',
+    header: 'Some users',
+  });
+});
+
+app.get('/new-account', (req, res) => {
+  res.render('new-account', {
+    title: 'ejs example working',
+    header: 'Some users',
+  });
+});
+
+app.get('/accounts', (req, res) => {
+  res.render('new-account', {
     title: 'ejs example working',
     header: 'Some users',
   });

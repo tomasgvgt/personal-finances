@@ -4,13 +4,13 @@ const userForm = document.getElementById('user-form');
 
 const createUser = async (e) => {
   e.preventDefault();
-  console.log(e.target.elements);
   const { elements } = e.target;
 
   // TODO: validate form
   const data = {
     firstName: elements['first-name'].value,
     lastName: elements['last-name'].value,
+    userName: elements['user-name'].value,
     email: elements['email'].value,
     password: elements['password'].value,
   };
@@ -26,8 +26,13 @@ const createUser = async (e) => {
 
     const responseData = await response.json();
     console.log(responseData);
+    if (responseData.token) {
+      localStorage.setItem('token', responseData.token);
+    } else {
+      throw new Error('Unauthorized');
+    }
   } catch (error) {
-    throw new Error(error);
+    console.error(error);
   }
 };
 

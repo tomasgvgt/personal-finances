@@ -1,0 +1,15 @@
+<%- include('head.html') %>
+<h1><%= title %></h1>
+<h2>Welcome <%= user.userName %></h2>
+<section class="container text-center">
+  <% accounts.forEach((account)=>{ %>
+  <div class="card" style="width: 18rem">
+    <h4 class="card-title">Name: <%= account.name%></h4>
+    <i class="card-subtitle">Type: <%= account.type%></i>
+    <p class="card-text">Bank: <%= account.bank%></p>
+    <p class="card-text">Description: <%= account.description%></p>
+    <p class="card-text">Balance: <%= account.total%></p>
+  </div>
+  <% }) %>
+</section>
+<%- include('foot.html') %>
