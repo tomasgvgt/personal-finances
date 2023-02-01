@@ -7,7 +7,6 @@ class Transaction{
             return newTransaction;
         }catch(error){
             next(error);
-            //console.log(error);
             return error
         }
     }
@@ -16,7 +15,6 @@ class Transaction{
         try{
             let transactions;
             if(categoryID){
-                console.log(categoryID);
                 transactions = await db.sequelize.query(
                     `SELECT transaction.id, transaction.type, transaction.amount
                     FROM transaction
@@ -30,45 +28,49 @@ class Transaction{
                     INNER JOIN user ON ${userID} = transaction.user_id`
                 );
             }
+            if(!transactions){
+                const error = new Error('Cant get transactions');
+                error.name = "ValidationError";
+                throw error;
+            }
             return transactions;
         }catch(error){
-            console.log(error);
             throw error;
         }
     }
 
-    async getTransactionsFromAccount(accountID, categoryID){
+    async getTransactionsFromAccount(userID, accountID, categoryID){
         try{
             let transactions;
             if(categoryID){
-                console.log(categoryID);
                 transactions = await db.sequelize.query(
                     `SELECT transaction.id, transaction.type, account.name, transaction.amount 
                     FROM transaction
                     INNER JOIN account ON ${accountID} = transaction.account_id
-                    WHERE transaction.category_id = ${categoryID}`
+                    WHERE transaction.category_id = ${categoryID} AND  transaction.user_id = ${userID}`
                 )
             }else{
                 transactions = await db.sequelize.query(
                     `SELECT transaction.id, transaction.type, account.name, transaction.amount
                     FROM transaction
-                    INNER JOIN account ON ${accountID} = transaction.account_id`
+                    INNER JOIN account ON ${accountID} = transaction.account_id
+                    WHERE transaction.user_id = ${userID}`
                 );
             }
             return transactions;
         }catch(error){
-            console.log(error);
             throw error;
         }
     }
 
-    async updateTransaction(transactionId, data){
+    async updateTransaction(userID, transactionId, data){
             const isModified = await db.Transaction.update(
                 {
                     ...data,
                 },
                 {
                     where: {
+                        userId: userID,
                         id: transactionId,
                     }
                 }
@@ -80,16 +82,16 @@ class Transaction{
             }
     }
 
-    async deleteTransaction(transactionID){
+    async deleteTransaction(userID, transactionID){
         try{
             const isTransactionDeleted = await db.Transaction.destroy({
                 where: {
-                    id: transactionID
+                    id: transactionID,
+                    userId: userID
                 }
             });
             if(isTransactionDeleted === 0) throw new Error("Transaction wasn't Deleted")
         }catch(error){
-            console.log(error);
             throw error;
         }
         

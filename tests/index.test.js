@@ -42,9 +42,6 @@ describe('Personal-finances API V1', () => {
       const response = await request(app)
         .post('/api/v1/auth/sign-up')
         .send(user);
-
-      //   console.log(response);
-
       expect(response.status).toBe(422);
     });
   });

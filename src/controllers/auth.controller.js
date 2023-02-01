@@ -1,10 +1,11 @@
 const db = require('../db/models');
-const hashPassword = require('../auth/hash.auth');
+const {hashPassword} = require('../auth/hash.auth');
+const localStrategy = require('../auth/localStrategy.auth');
+const {createToken} = require('../auth/token.auth');
 
 const userSignUpController = async (req, res, next) => {
   try {
     const { firstName, lastName, userName, email, password } = req.body;
-
     /**
      * TODO:
      * - Data validation
@@ -26,18 +27,20 @@ const userSignUpController = async (req, res, next) => {
       message: user,
     });
   } catch (error) {
-    // console.log(error);
     next(error);
-    // res.status(400);
-    // res.send({
-    //   error,
-    // });
   }
 };
 
-const userLogInController = (req, res) => {
-  //login logic here
-  res.sendStatus(404);
+const userLogInController = async (req, res, next)=>{
+  try{
+    const token = createToken(req.user)
+    res.json({
+      id: req.user.id,
+      token
+    });
+  }catch(err){
+    next(err);
+  }
 };
 
 module.exports = { userSignUpController, userLogInController };

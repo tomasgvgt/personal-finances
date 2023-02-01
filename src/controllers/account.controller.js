@@ -8,7 +8,6 @@ class Account{
             return newAccount;
         }
         catch(error){
-            console.log(error);
             throw error;
         }
     }
@@ -21,41 +20,41 @@ class Account{
                 },
                 include: db.Account
             });
-            console.log(user);
             return user;
         }catch(error){
-            console.log(error);
             throw error;
         }
     }
 
-    async updateAccount(accountId, data){
+    async updateAccount(userId, accountId, data){
         const isModified = await db.Account.update(
             {
                 ...data,
             },
             {
                 where: {
-                    id: accountId
+                    id: accountId,
+                    user_id: userId
                 }
             }
         )
         if(isModified[0]===0){
             const error = new Error('account not found');
-            error.name = "Validation Error";
+            error.name = "ValidationError";
             throw error;
         }
     }
 
-    async deleteAccount(accountId){
+    async deleteAccount(userId, accountId){
             const isDeleted = await db.Account.destroy({
                 where: {
-                    id: accountId
+                    id: accountId,
+                    user_id: userId
                 }
             })
             if (isDeleted === 0){
                 const error = new Error('Cant delete account');
-                error.name = "SequelizeForeignKeyConstraintError";
+                error.name = "ValidationError";
                 throw error;
             }
     }

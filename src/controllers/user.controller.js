@@ -1,5 +1,6 @@
 const db = require('../db/models');
-const hashPassword = require('../auth/hash.auth')
+const {hashPassword} = require('../auth/hash.auth');
+const { badData } = require('@hapi/boom');
 
 class User {
     async getAllUsers(){
@@ -14,11 +15,15 @@ class User {
                 id: userId
             }
         })
-        console.log(user);
         delete user.dataValues.password;
         return user
     }
-
+    async getUserByUserName(username){
+        const user = await db.User.findOne({
+            where: {userName: username}
+        });
+        return user
+    }
     async updateUser(userId, data){
         if(data.password) data.password = await hashPassword(data.password);
         let isModified = await db.User.update({
