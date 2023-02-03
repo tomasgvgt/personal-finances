@@ -4,11 +4,28 @@ const dataValidator = require('../middlewares/dataValidation');
 const passport = require('../auth');
 const {
   createCategorySchema,
-  getCategoriesSchema,
   deleteCategorySchema,
   updateCategorySchema,
 } = require('../schemas/category.schema');
 
+/**
+ * @swagger
+ * /api/v1/category/:
+ *  post:
+ *    summary: Create category
+ *    tags: [Category]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 categoryRouter.post(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -25,6 +42,23 @@ categoryRouter.post(
     }
   },
 );
+
+/**
+ * @swagger
+ * /api/v1/category/{id}:
+ *  delete:
+ *    summary: Delete category
+ *    tags: [Category]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 categoryRouter.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
@@ -42,6 +76,24 @@ categoryRouter.delete(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/category/:
+ *  patch:
+ *    summary: Update account
+ *    tags: [Category]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 categoryRouter.patch(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -59,10 +111,22 @@ categoryRouter.patch(
     }
   },
 );
+
+/**
+ * @swagger
+ * /api/v1/category/user-categories:
+ *  get:
+ *    summary: Get all categories from user
+ *    tags: [Category]
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 categoryRouter.get(
-  '/:userId',
+  '/user-categories',
   passport.authenticate('jwt', { session: false }),
-  dataValidator(getCategoriesSchema, 'params'),
   async (req, res, next) => {
     try {
       let userId = req.user.id;
