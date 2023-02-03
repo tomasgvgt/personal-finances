@@ -53,7 +53,7 @@ userRouter.get(
 
 /**
  * @swagger
- * /api/v1/user/id:
+ * /api/v1/user:
  *  patch:
  *    summary: Update user
  *    tags: [User]
@@ -70,7 +70,7 @@ userRouter.get(
  *      - bearerAuth: []
  */
 userRouter.patch(
-  '/id',
+  '/',
   passport.authenticate('jwt', { session: false }),
   dataValidator(updateUserSchema, 'body'),
   async (req, res, next) => {

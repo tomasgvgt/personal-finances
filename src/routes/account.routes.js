@@ -2,7 +2,6 @@ const account = require('../controllers/account.controller');
 const router = require('express').Router();
 const {
   createAccountSchema,
-  getAccountsFromUserSchema,
   getAccountSchema,
   updateAccountSchema,
   deleteAccountSchema,
@@ -10,6 +9,24 @@ const {
 const dataValidator = require('../middlewares/dataValidation');
 const passport = require('../auth');
 
+/**
+ * @swagger
+ * /api/v1/account/:
+ *  post:
+ *    summary: Create account
+ *    tags: [Account]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -27,10 +44,21 @@ router.post(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/account/user-accounts:
+ *  get:
+ *    summary: Get all accounts from user
+ *    tags: [Account]
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.get(
-  '/user-accounts/:userId',
+  '/user-accounts/',
   passport.authenticate('jwt', { session: false }),
-  dataValidator(getAccountsFromUserSchema, 'params'),
   async (req, res, next) => {
     try {
       const userId = req.user.id;
@@ -43,6 +71,28 @@ router.get(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/account/{id}:
+ *  patch:
+ *    summary: Update account
+ *    tags: [Account]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.patch(
   '/:id',
   passport.authenticate('jwt', { session: false }),
@@ -62,6 +112,22 @@ router.patch(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/account/{id}:
+ *  delete:
+ *    summary: Delete account
+ *    tags: [Account]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
