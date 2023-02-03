@@ -12,6 +12,24 @@ const {
   deleteTransactionSchema,
 } = require('../schemas/transaction.schema');
 
+/**
+ * @swagger
+ * /api/v1/transaction/:
+ *  post:
+ *    summary: Create transaction
+ *    tags: [Transaction]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -33,10 +51,26 @@ router.post(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/transaction/user-transactions:
+ *  get:
+ *    summary: Get all transactions from user
+ *    tags: [Transaction]
+ *    parameters:
+ *      - in: query
+ *        name: category
+ *        description: category ID
+ *        required: false
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.get(
-  '/user/:userId',
+  '/user-transactions',
   passport.authenticate('jwt', { session: false }),
-  dataValidator(getTransactionsFromUserSchema, 'params'),
   dataValidator(getFromCategorySchema, 'query'),
   async (req, res, next) => {
     try {
@@ -55,6 +89,26 @@ router.get(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/transaction/account/{accountId}:
+ *  get:
+ *    summary: Get all transactions from account
+ *    tags: [Transaction]
+ *    parameters:
+ *      - in: path
+ *        name: accountId
+ *        required: true
+ *      - in: query
+ *        name: category
+ *        description: category ID
+ *        required: false
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.get(
   '/account/:accountId',
   passport.authenticate('jwt', { session: false }),
@@ -79,6 +133,28 @@ router.get(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/transaction/{id}:
+ *  patch:
+ *    summary: Update transaction
+ *    tags: [Transaction]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.patch(
   '/:id',
   passport.authenticate('jwt', { session: false }),
@@ -98,6 +174,22 @@ router.patch(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/transaction/{id}:
+ *  delete:
+ *    summary: Delete transaction
+ *    tags: [Transaction]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
