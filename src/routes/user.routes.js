@@ -9,6 +9,7 @@ const passport = require('../auth');
  * /api/v1/user:
  *  get:
  *    summary: Get all users
+ *    tags: [User]
  *    responses:
  *      200:
  *        description: OK
@@ -28,9 +29,12 @@ userRouter.get('/', async (req, res, next) => {
  * /api/v1/user/id:
  *  get:
  *    summary: Get user with specific ID
+ *    tags: [User]
  *    responses:
  *      200:
  *        description: OK
+ *    security:
+ *      - bearerAuth: []
  */
 userRouter.get(
   '/id',
@@ -47,8 +51,26 @@ userRouter.get(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/user/id:
+ *  patch:
+ *    summary: Update user
+ *    tags: [User]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 userRouter.patch(
-  '/:id',
+  '/id',
   passport.authenticate('jwt', { session: false }),
   dataValidator(updateUserSchema, 'body'),
   async (req, res, next) => {

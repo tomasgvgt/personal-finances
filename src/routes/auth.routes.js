@@ -12,6 +12,23 @@ authRouter.post(
   dataValidator(createUserSchema, 'body'),
   userSignUpController,
 );
+
+/**
+ * @swagger
+ * /api/v1/auth/log-in:
+ *  post:
+ *    summary: User log in
+ *    tags: [User]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *    responses:
+ *      200:
+ *        description: OK
+ */
 authRouter.post(
   '/log-in',
   passport.authenticate('local', { session: false }),

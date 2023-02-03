@@ -1,19 +1,30 @@
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const path = require('path');
+const { Http2ServerRequest } = require('http2');
+const jwtStrategy = require('./auth/jwtStrategy.auth');
 
 //Basic Meta information
 const options = {
     definition: {
         openapi: "3.0.0",
         info: {title: "Personal Finances API", version: "1.0.0"},
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                }
+            },
+        }
     },
     servers: [
         {
             url: "http://localhost:3000"
         }
     ],
-    apis: [`${path.join(__dirname, "./routes/*.js")}`],
+    apis: [`${path.join(__dirname, "./routes/*.js")}`]
 }
 
 //Docs in JSON format
