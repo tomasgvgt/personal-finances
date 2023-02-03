@@ -4,6 +4,15 @@ const { getUserSchema, updateUserSchema } = require('../schemas/user.schema');
 const dataValidator = require('../middlewares/dataValidation');
 const passport = require('../auth');
 
+/**
+ * @swagger
+ * /api/v1/user:
+ *  get:
+ *    summary: Get all users
+ *    responses:
+ *      200:
+ *        description: OK
+ */
 userRouter.get('/', async (req, res, next) => {
   try {
     const data = await user.getAllUsers();
@@ -14,8 +23,17 @@ userRouter.get('/', async (req, res, next) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/v1/user/id:
+ *  get:
+ *    summary: Get user with specific ID
+ *    responses:
+ *      200:
+ *        description: OK
+ */
 userRouter.get(
-  '/:id',
+  '/id',
   passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {

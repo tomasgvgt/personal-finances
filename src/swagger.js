@@ -1,5 +1,6 @@
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const path = require('path');
 
 //Basic Meta information
 const options = {
@@ -7,7 +8,12 @@ const options = {
         openapi: "3.0.0",
         info: {title: "Personal Finances API", version: "1.0.0"},
     },
-    apis: ['./src/routes/user.routes.js'],
+    servers: [
+        {
+            url: "http://localhost:3000"
+        }
+    ],
+    apis: [`${path.join(__dirname, "./routes/*.js")}`],
 }
 
 //Docs in JSON format
