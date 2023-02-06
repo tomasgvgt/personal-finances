@@ -6,6 +6,27 @@ const passport = require('../auth');
 
 /**
  * @swagger
+ * components:
+ *  schemas:
+ *    UpdateUser:
+ *      type: object
+ *      properties:
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        email:
+ *          type: string
+ *        password:
+ *          type: string
+ *      example:
+ *        firstName: Richard
+ *        lastName: Roe
+ *        email: richardroe@coolemail.com
+ */
+
+/**
+ * @swagger
  * /api/v1/user:
  *  get:
  *    summary: Get all users
@@ -63,9 +84,10 @@ userRouter.get(
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/UpdateUser'
  *    responses:
  *      200:
- *        description: OK
+ *        description: Updated
  *    security:
  *      - bearerAuth: []
  */

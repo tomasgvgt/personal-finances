@@ -10,6 +10,28 @@ const {
 
 /**
  * @swagger
+ * components:
+ *  schemas:
+ *    CreateCategory:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *      example:
+ *        name: Investing
+ *    UpdateCategory:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *          id: integer
+ *      example:
+ *        id: 
+ *        name: Traveling
+ */
+
+/**
+ * @swagger
  * /api/v1/category/:
  *  post:
  *    summary: Create category
@@ -20,9 +42,10 @@ const {
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/CreateCategory'
  *    responses:
  *      200:
- *        description: OK
+ *        description: Created
  *    security:
  *      - bearerAuth: []
  */
@@ -55,7 +78,7 @@ categoryRouter.post(
  *        required: true
  *    responses:
  *      200:
- *        description: OK
+ *        description: Deleted
  *    security:
  *      - bearerAuth: []
  */
@@ -80,7 +103,7 @@ categoryRouter.delete(
  * @swagger
  * /api/v1/category/:
  *  patch:
- *    summary: Update account
+ *    summary: Update Category
  *    tags: [Category]
  *    requestBody:
  *      required: true
@@ -88,9 +111,10 @@ categoryRouter.delete(
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/UpdateCategory'
  *    responses:
- *      200:
- *        description: OK
+ *      201:
+ *        description: Updated
  *    security:
  *      - bearerAuth: []
  */

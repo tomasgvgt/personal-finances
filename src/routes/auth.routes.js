@@ -9,19 +9,55 @@ const passport = require('../auth');
 
 /**
  * @swagger
+ * components:
+ *  schemas:
+ *    CreateUser:
+ *      type: object
+ *      properties:
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        email:
+ *          type: string
+ *        password:
+ *          type: string
+ *        userName:
+ *          type: string
+ *      example:
+ *        firstName: Hephaestus
+ *        lastName: Olimpicus
+ *        email: hephaestus@olympus.com
+ *        userName: hephaestus
+ *        password: '12345'
+ *    LoginUser:
+ *      type: object
+ *      properties:
+ *        password:
+ *          type: string
+ *        username:
+ *          type: string
+ *      example:
+ *        username: hephaestus
+ *        password: '12345'
+ */
+
+/**
+ * @swagger
  * /api/v1/auth/sign-up:
  *  post:
  *    summary: Create new user
- *    tags: [User]
+ *    tags: [Sign Up]
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/CreateUser'
  *    responses:
- *      200:
- *        description: OK
+ *      201:
+ *        description: Created
  */
 authRouter.post(
   '/sign-up',
@@ -34,13 +70,14 @@ authRouter.post(
  * /api/v1/auth/log-in:
  *  post:
  *    summary: User log in
- *    tags: [User]
+ *    tags: [Log In]
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/LoginUser'
  *    responses:
  *      200:
  *        description: OK

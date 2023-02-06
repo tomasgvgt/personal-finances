@@ -14,6 +14,40 @@ const {
 
 /**
  * @swagger
+ * components:
+ *  schemas:
+ *    CreateTransaction:
+ *      type: object
+ *      properties:
+ *        type:
+ *          type: string
+ *        amount:
+ *          type: integer
+ *        description:
+ *          type: string
+ *        categoryId:
+ *          type: integer
+ *        accountId:
+ *          type: integer
+ *        userId:
+ *          type: integer
+ *      example:
+ *        type: expense
+ *        amount: 2000
+ *        categoryId: 44
+ *        accountId: 17
+ *        userId: 25
+ *    UpdateTransaction:
+ *      type: object
+ *      properties:
+ *        description:
+ *          type: string
+ *      example:
+ *        description: New description
+ */
+
+/**
+ * @swagger
  * /api/v1/transaction/:
  *  post:
  *    summary: Create transaction
@@ -24,9 +58,10 @@ const {
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/CreateTransaction'
  *    responses:
- *      200:
- *        description: OK
+ *      201:
+ *        description: Created
  *    security:
  *      - bearerAuth: []
  */
@@ -149,9 +184,10 @@ router.get(
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/UpdateTransaction'
  *    responses:
  *      200:
- *        description: OK
+ *        description: Updated
  *    security:
  *      - bearerAuth: []
  */

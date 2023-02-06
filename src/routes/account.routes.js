@@ -11,6 +11,50 @@ const passport = require('../auth');
 
 /**
  * @swagger
+ * components:
+ *  schemas:
+ *    CreateAccount:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *        type:
+ *          type: string
+ *        bank:
+ *          type: string
+ *        description:
+ *          type: string
+ *        total:
+ *          type: integer
+ *      example:
+ *        name: Savings Chase
+ *        type: Savings
+ *        bank: Chase
+ *        description: My savings account
+ *        total: 5000
+ *    UpdateAccount:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *        type:
+ *          type: string
+ *        bank:
+ *          type: string
+ *        description:
+ *          type: string
+ *        total:
+ *          type: integer
+ *      example:
+ *        name: Savings for trips
+ *        type: Savings
+ *        bank: Bank of America
+ *        description: My savings account for traveling purpoises
+ *        total: 1000
+ */
+
+/**
+ * @swagger
  * /api/v1/account/:
  *  post:
  *    summary: Create account
@@ -21,9 +65,10 @@ const passport = require('../auth');
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/CreateAccount'
  *    responses:
- *      200:
- *        description: OK
+ *      201:
+ *        description: Created
  *    security:
  *      - bearerAuth: []
  */
@@ -87,9 +132,10 @@ router.get(
  *        application/json:
  *          schema:
  *            type: object
+ *            $ref: '#/components/schemas/UpdateAccount'
  *    responses:
  *      200:
- *        description: OK
+ *        description: Updated
  *    security:
  *      - bearerAuth: []
  */
@@ -105,7 +151,7 @@ router.patch(
       const data = req.body;
       await account.updateAccount(userId, accountId, data);
       res.status(200);
-      res.send('Modified');
+      res.send('Updated');
     } catch (err) {
       next(err);
     }
