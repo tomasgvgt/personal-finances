@@ -4,11 +4,51 @@ const dataValidator = require('../middlewares/dataValidation');
 const passport = require('../auth');
 const {
   createCategorySchema,
-  getCategoriesSchema,
   deleteCategorySchema,
   updateCategorySchema,
 } = require('../schemas/category.schema');
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    CreateCategory:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *      example:
+ *        name: Investing
+ *    UpdateCategory:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *          id: integer
+ *      example:
+ *        id: 
+ *        name: Traveling
+ */
+
+/**
+ * @swagger
+ * /api/v1/category/:
+ *  post:
+ *    summary: Create category
+ *    tags: [Category]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/CreateCategory'
+ *    responses:
+ *      200:
+ *        description: Created
+ *    security:
+ *      - bearerAuth: []
+ */
 categoryRouter.post(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -25,6 +65,23 @@ categoryRouter.post(
     }
   },
 );
+
+/**
+ * @swagger
+ * /api/v1/category/{id}:
+ *  delete:
+ *    summary: Delete category
+ *    tags: [Category]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *    responses:
+ *      200:
+ *        description: Deleted
+ *    security:
+ *      - bearerAuth: []
+ */
 categoryRouter.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
@@ -42,6 +99,25 @@ categoryRouter.delete(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/category/:
+ *  patch:
+ *    summary: Update Category
+ *    tags: [Category]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/UpdateCategory'
+ *    responses:
+ *      201:
+ *        description: Updated
+ *    security:
+ *      - bearerAuth: []
+ */
 categoryRouter.patch(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -59,10 +135,22 @@ categoryRouter.patch(
     }
   },
 );
+
+/**
+ * @swagger
+ * /api/v1/category/user-categories:
+ *  get:
+ *    summary: Get all categories from user
+ *    tags: [Category]
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 categoryRouter.get(
-  '/:userId',
+  '/user-categories',
   passport.authenticate('jwt', { session: false }),
-  dataValidator(getCategoriesSchema, 'params'),
   async (req, res, next) => {
     try {
       let userId = req.user.id;

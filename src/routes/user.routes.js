@@ -4,6 +4,37 @@ const { getUserSchema, updateUserSchema } = require('../schemas/user.schema');
 const dataValidator = require('../middlewares/dataValidation');
 const passport = require('../auth');
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    UpdateUser:
+ *      type: object
+ *      properties:
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        email:
+ *          type: string
+ *        password:
+ *          type: string
+ *      example:
+ *        firstName: Richard
+ *        lastName: Roe
+ *        email: richardroe@coolemail.com
+ */
+
+/**
+ * @swagger
+ * /api/v1/user:
+ *  get:
+ *    summary: Get all users
+ *    tags: [User]
+ *    responses:
+ *      200:
+ *        description: OK
+ */
 userRouter.get('/', async (req, res, next) => {
   try {
     const data = await user.getAllUsers();
@@ -14,8 +45,20 @@ userRouter.get('/', async (req, res, next) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/v1/user/id:
+ *  get:
+ *    summary: Get user with specific ID
+ *    tags: [User]
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 userRouter.get(
-  '/:id',
+  '/id',
   passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
@@ -29,8 +72,27 @@ userRouter.get(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/user:
+ *  patch:
+ *    summary: Update user
+ *    tags: [User]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/UpdateUser'
+ *    responses:
+ *      200:
+ *        description: Updated
+ *    security:
+ *      - bearerAuth: []
+ */
 userRouter.patch(
-  '/:id',
+  '/',
   passport.authenticate('jwt', { session: false }),
   dataValidator(updateUserSchema, 'body'),
   async (req, res, next) => {

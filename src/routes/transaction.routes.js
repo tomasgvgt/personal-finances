@@ -12,6 +12,59 @@ const {
   deleteTransactionSchema,
 } = require('../schemas/transaction.schema');
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    CreateTransaction:
+ *      type: object
+ *      properties:
+ *        type:
+ *          type: string
+ *        amount:
+ *          type: integer
+ *        description:
+ *          type: string
+ *        categoryId:
+ *          type: integer
+ *        accountId:
+ *          type: integer
+ *        userId:
+ *          type: integer
+ *      example:
+ *        type: expense
+ *        amount: 2000
+ *        categoryId: 44
+ *        accountId: 17
+ *        userId: 25
+ *    UpdateTransaction:
+ *      type: object
+ *      properties:
+ *        description:
+ *          type: string
+ *      example:
+ *        description: New description
+ */
+
+/**
+ * @swagger
+ * /api/v1/transaction/:
+ *  post:
+ *    summary: Create transaction
+ *    tags: [Transaction]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/CreateTransaction'
+ *    responses:
+ *      201:
+ *        description: Created
+ *    security:
+ *      - bearerAuth: []
+ */
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
@@ -33,10 +86,26 @@ router.post(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/transaction/user-transactions:
+ *  get:
+ *    summary: Get all transactions from user
+ *    tags: [Transaction]
+ *    parameters:
+ *      - in: query
+ *        name: category
+ *        description: category ID
+ *        required: false
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.get(
-  '/user/:userId',
+  '/user-transactions',
   passport.authenticate('jwt', { session: false }),
-  dataValidator(getTransactionsFromUserSchema, 'params'),
   dataValidator(getFromCategorySchema, 'query'),
   async (req, res, next) => {
     try {
@@ -55,6 +124,26 @@ router.get(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/transaction/account/{accountId}:
+ *  get:
+ *    summary: Get all transactions from account
+ *    tags: [Transaction]
+ *    parameters:
+ *      - in: path
+ *        name: accountId
+ *        required: true
+ *      - in: query
+ *        name: category
+ *        description: category ID
+ *        required: false
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.get(
   '/account/:accountId',
   passport.authenticate('jwt', { session: false }),
@@ -79,6 +168,29 @@ router.get(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/transaction/{id}:
+ *  patch:
+ *    summary: Update transaction
+ *    tags: [Transaction]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            $ref: '#/components/schemas/UpdateTransaction'
+ *    responses:
+ *      200:
+ *        description: Updated
+ *    security:
+ *      - bearerAuth: []
+ */
 router.patch(
   '/:id',
   passport.authenticate('jwt', { session: false }),
@@ -98,6 +210,22 @@ router.patch(
   },
 );
 
+/**
+ * @swagger
+ * /api/v1/transaction/{id}:
+ *  delete:
+ *    summary: Delete transaction
+ *    tags: [Transaction]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *    responses:
+ *      200:
+ *        description: OK
+ *    security:
+ *      - bearerAuth: []
+ */
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),

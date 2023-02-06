@@ -17,9 +17,6 @@ const createAccountSchema = Joi.object({
     total
 })
 
-const getAccountsFromUserSchema = Joi.object({
-    userId: userId.required()
-})
 
 const getAccountSchema = Joi.object({
     id: id.required()
@@ -39,7 +36,6 @@ const deleteAccountSchema = Joi.object({
 
 module.exports = {
     createAccountSchema, 
-    getAccountsFromUserSchema,
     getAccountSchema,
     updateAccountSchema,
     deleteAccountSchema
