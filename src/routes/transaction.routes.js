@@ -111,6 +111,7 @@ router.post(
  */
 router.get(
   '/user-transactions',
+  '/user-transactions',
   passport.authenticate('jwt', { session: false }),
   dataValidator(getFromCategorySchema, 'query'),
   async (req, res, next) => {
