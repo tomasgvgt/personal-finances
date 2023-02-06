@@ -92,7 +92,6 @@ userRouter.get('/', async (req, res, next) => {
  */
 userRouter.get(
   '/id',
-  '/id',
   passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
@@ -128,7 +127,6 @@ userRouter.get(
  *      - bearerAuth: []
  */
 userRouter.patch(
-  '/',
   '/',
   passport.authenticate('jwt', { session: false }),
   dataValidator(updateUserSchema, 'body'),

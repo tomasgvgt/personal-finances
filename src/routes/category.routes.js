@@ -165,7 +165,6 @@ categoryRouter.patch(
  */
 categoryRouter.get(
   '/user-categories',
-  '/user-categories',
   passport.authenticate('jwt', { session: false }),
   async (req, res, next) => {
     try {
