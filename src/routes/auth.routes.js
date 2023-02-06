@@ -80,7 +80,9 @@ authRouter.post(
  *            $ref: '#/components/schemas/LoginUser'
  *    responses:
  *      200:
- *        description: OK
+ *        description: Authentication Token
+ *      401:
+ *        description: Unauthorized
  */
 authRouter.post(
   '/log-in',

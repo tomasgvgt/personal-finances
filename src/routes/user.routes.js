@@ -54,6 +54,8 @@ userRouter.get('/', async (req, res, next) => {
  *    responses:
  *      200:
  *        description: OK
+ *      401:
+ *        description: Unauthorized
  *    security:
  *      - bearerAuth: []
  */
@@ -88,6 +90,8 @@ userRouter.get(
  *    responses:
  *      200:
  *        description: Updated
+ *      401:
+ *        description: Unauthorized
  *    security:
  *      - bearerAuth: []
  */

@@ -69,6 +69,10 @@ const passport = require('../auth');
  *    responses:
  *      201:
  *        description: Created
+ *      401:
+ *        description: Unauthorized
+ *      422:
+ *        description: Unprocessable Entity
  *    security:
  *      - bearerAuth: []
  */
@@ -98,6 +102,8 @@ router.post(
  *    responses:
  *      200:
  *        description: OK
+ *      401:
+ *        description: Unauthorized
  *    security:
  *      - bearerAuth: []
  */
@@ -136,6 +142,10 @@ router.get(
  *    responses:
  *      200:
  *        description: Updated
+ *      401:
+ *        description: Unauthorized
+ *      422:
+ *        description: Unprocessable Entity
  *    security:
  *      - bearerAuth: []
  */
@@ -171,6 +181,10 @@ router.patch(
  *    responses:
  *      200:
  *        description: OK
+ *      401:
+ *        description: Unauthorized
+ *      422:
+ *        description: Unprocessable Entity
  *    security:
  *      - bearerAuth: []
  */
