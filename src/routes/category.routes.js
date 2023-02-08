@@ -46,6 +46,11 @@ const {
  *    responses:
  *      200:
  *        description: Created
+ *      401:
+ *        description: Unauthorized
+ *      422:
+ *        description: Unprocessable Entity
+ *      
  *    security:
  *      - bearerAuth: []
  */
@@ -79,6 +84,10 @@ categoryRouter.post(
  *    responses:
  *      200:
  *        description: Deleted
+ *      401:
+ *        description: Unauthorized
+ *      422:
+ *        description: Unprocessable Entity
  *    security:
  *      - bearerAuth: []
  */
@@ -115,6 +124,10 @@ categoryRouter.delete(
  *    responses:
  *      201:
  *        description: Updated
+ *      401:
+ *        description: Unauthorized
+ *      422:
+ *        description: Unprocessable Entity
  *    security:
  *      - bearerAuth: []
  */
@@ -145,6 +158,8 @@ categoryRouter.patch(
  *    responses:
  *      200:
  *        description: OK
+ *      401:
+ *        description: Unauthorized
  *    security:
  *      - bearerAuth: []
  */

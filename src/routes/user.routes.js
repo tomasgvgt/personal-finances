@@ -35,6 +35,37 @@ const passport = require('../auth');
  *      200:
  *        description: OK
  */
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    UpdateUser:
+ *      type: object
+ *      properties:
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        email:
+ *          type: string
+ *        password:
+ *          type: string
+ *      example:
+ *        firstName: Richard
+ *        lastName: Roe
+ *        email: richardroe@coolemail.com
+ */
+
+/**
+ * @swagger
+ * /api/v1/user:
+ *  get:
+ *    summary: Get all users
+ *    tags: [User]
+ *    responses:
+ *      200:
+ *        description: OK
+ */
 userRouter.get('/', async (req, res, next) => {
   try {
     const data = await user.getAllUsers();
@@ -54,6 +85,8 @@ userRouter.get('/', async (req, res, next) => {
  *    responses:
  *      200:
  *        description: OK
+ *      401:
+ *        description: Unauthorized
  *    security:
  *      - bearerAuth: []
  */
@@ -88,6 +121,8 @@ userRouter.get(
  *    responses:
  *      200:
  *        description: Updated
+ *      401:
+ *        description: Unauthorized
  *    security:
  *      - bearerAuth: []
  */
