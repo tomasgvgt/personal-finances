@@ -6,13 +6,6 @@ const {createToken} = require('../auth/token.auth');
 const userSignUpController = async (req, res, next) => {
   try {
     const { firstName, lastName, userName, email, password } = req.body;
-    /**
-     * TODO:
-     * - Data validation
-     * - Password encryption
-     * - Authentication
-     */
-
     const hashedPassword = await hashPassword(password);
     let user = await db.User.create({
       firstName,
@@ -22,6 +15,7 @@ const userSignUpController = async (req, res, next) => {
       password: hashedPassword,
     });
     delete user.dataValues.password;
+    console.log(user);
     res.status(201);
     res.send({
       message: user,
